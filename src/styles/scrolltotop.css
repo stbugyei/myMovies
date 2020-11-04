@@ -1,0 +1,35 @@
+.scroll {
+	position: fixed;
+	text-align: center;
+	width: 40px;
+	height: 40px;
+	left: 95%;
+	top: 90%;
+	border-radius: 50%;
+	outline: none;
+	border: 1px solid #1fff;
+	cursor: pointer;
+	z-index: 99;
+    transform-origin: top;
+    background: linear-gradient(to bottom, #1fff 5%, rgb(41, 97, 97) 100%);
+	background-color: rgb(31, 99, 99);
+	transition: all .2s;
+}
+
+.scroll i {
+	color: #fff;
+	font-size: 20px;
+	text-shadow: 0 0 3px #112222;
+}
+
+@media (min-width:  481px) and (max-width: 768px) {
+	.scroll {
+		left: 93%
+	}
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+	.scroll {
+		left: 86%
+    }
+}

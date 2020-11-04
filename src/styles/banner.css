@@ -1,0 +1,12 @@
+.banner-wrapper {
+	position: absolute;
+	top: 15px;
+	width: 100%;
+	border: none;
+	transition: all .3s;
+	z-index: 9;
+}
+
+.ban{
+	display: none;
+}

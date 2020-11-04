@@ -1,0 +1,110 @@
+.spin-position {
+	background: #122;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	/* -webkit-animation: zoomin 10s ease-in infinite;
+	animation: zoomin 10s ease-in infinite;
+  transition: all .5s ease-in-out; */
+	-webkit-animation: zoomin 5s ease-in infinite; 
+	 animation: zoomin 5s ease-in infinite; 
+	transition: all .3s;
+	overflow: hidden;
+}
+
+.spin {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 45px;
+	height: 45px;
+	color: rgb(107, 21, 0);
+}
+
+.spin-sector {
+	border-radius: 50%;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border: 5px solid #f1f1f1;
+	mix-blend-mode: overlay;
+}
+
+.spin-sector-first {
+	animation: rotates 1s ease-in infinite;
+	border-top: 10px solid #fff;
+}
+
+.spin-sector-second {
+	animation: rotates .8s ease-in-out infinite;
+	border-bottom: 10px solid #fff;
+}
+
+.spin-sector-third {
+	animation: rotates .8s ease-in-out infinite;
+	border-top: 10px solid #fff;
+}
+
+/* ======== Zoom in Keyframes======== */
+
+@keyframes rotates {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* ======== Zoom in Keyframes======== */
+
+@-webkit-keyframes zoomin {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.5);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@keyframes zoomin {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.5);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+/* ======= Zoom out Keyframes ======== */
+
+@-webkit-keyframes zoomout {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(0.67);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@keyframes zoomout {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(0.67);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
