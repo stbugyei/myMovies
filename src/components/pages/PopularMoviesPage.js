@@ -7,43 +7,27 @@ import Spinner from "../Spinner";
 
 
 const popularMovieUrl = "https://api.themoviedb.org/3/movie/popular?&api_key=04c35731a5ee918f014970082a0088b1";
-const genreList = "https://api.themoviedb.org/3/genre/movie/list?&api_key=04c35731a5ee918f014970082a0088b1"
-//let api_key = "5dcf7f28a88be0edc01bbbde06f024ab";
 
 const PopularMoviesPage = (props) => {
 
+    const { genres } = props
+
     const [movies, setMovies] = useState([]);
-    const [genres, setGenres] = useState(null);
     const [error, setError] = useState(false);
     let [pageNumber, setPageNumber] = useState(1);
     let [totalPopularMovie, setTotalPopularMovie] = useState('');
 
     const getMovies = async () => {
 
-        const popularMovieFeed = await Promise.all([
-            fetch(`${popularMovieUrl}&page=${pageNumber}`),
-            fetch(`${genreList}`)
-        ]);
+        const popularMovieFeed = await fetch(`${popularMovieUrl}&page=${pageNumber}`);
 
-
-        if ((popularMovieFeed[0].status) === 200) {
+        if ((popularMovieFeed.status) === 200) {
 
             try {
                 //=========Storing all fetched data to the state =========
-                const popularmovieUrl = await popularMovieFeed[0].json();
-                const genreList = await popularMovieFeed[1].json();
-
-                //========= Extracting the genre id and names =========
-
-                const generatedGenre = genreList.genres.reduce((element, list) => {
-                    const { id, name } = list
-                    element[id] = name
-                    element[28] = "Action"
-                    return element
-                });
+                const popularmovieUrl = await await popularMovieFeed.json();
 
                 setMovies(popularmovieUrl.results)
-                setGenres(generatedGenre);
                 setError(null);
                 setTotalPopularMovie(popularmovieUrl.total_pages)
 
@@ -58,8 +42,8 @@ const PopularMoviesPage = (props) => {
 
     //======================= Pagination function ==================
 
-    const nextPageDefault = (pageNumber, totalPageNumber) => {
-        if (movies && pageNumber < totalPageNumber) {
+    const nextPageDefault = () => {
+        if (movies && pageNumber < totalPopularMovie) {
             setPageNumber(pageNumber += 1)
             getMovies()
             window.scrollTo({
@@ -69,7 +53,7 @@ const PopularMoviesPage = (props) => {
         }
     }
 
-    const PreviousPageDefault = (pageNumber) => {
+    const PreviousPageDefault = () => {
         if (movies && pageNumber !== 1) {
             setPageNumber(pageNumber -= 1)
             getMovies()
@@ -79,7 +63,6 @@ const PopularMoviesPage = (props) => {
             });
         }
     }
-
 
     useEffect(() => {
         getMovies();
@@ -120,9 +103,9 @@ const PopularMoviesPage = (props) => {
                         <div className='caption-div'>
                             <span> <h2>Popular Movies</h2></span>
                             <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={() => PreviousPageDefault(pageNumber)}><i className="fas fa-arrow-left"></i></button>
+                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
                                 <button className='pagination-btn__info'> {pageNumber} of {totalPopularMovie}</button>
-                                <button className='pagination-btn__next' onClick={() => nextPageDefault(pageNumber, totalPopularMovie)}><i className="fas fa-arrow-right"></i></button>
+                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
                             </div>
                         </div>
 
@@ -132,24 +115,24 @@ const PopularMoviesPage = (props) => {
 
                         <div className="bottom-pagination">
                             <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={() => PreviousPageDefault(pageNumber)}><i className="fas fa-arrow-left"></i></button>
+                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
                                 <button className='pagination-btn__info'> {pageNumber} of {totalPopularMovie}</button>
-                                <button className='pagination-btn__next' onClick={() => nextPageDefault(pageNumber, totalPopularMovie)}><i className="fas fa-arrow-right"></i></button>
+                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
                             </div>
                         </div>
                     </div>
                 }
             </div>
         </div>
-
-
     )
 }
 
 export default withRouter(PopularMoviesPage)
 
 const errormsg = {
-    color: '#fff',
-    margin: '30px',
+    color: 'red',
+    margin: '100px auto',
     textAlign: 'center',
 };
+
+

@@ -5,17 +5,14 @@ import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
 
-
 const latestTvEpisodeUrl = "https://api.themoviedb.org/3/tv/airing_today?&api_key=04c35731a5ee918f014970082a0088b1";
-const genreList = "https://api.themoviedb.org/3/genre/movie/list?&api_key=04c35731a5ee918f014970082a0088b1"
-//let api_key = "5dcf7f28a88be0edc01bbbde06f024ab";
-
 
 
 const PopularTvPage = (props) => {
 
+    const { genres } = props
+
     const [movies, setMovies] = useState([]);
-    const [genres, setGenres] = useState(null);
     const [error, setError] = useState(false);
     let [pageNumber, setPageNumber] = useState(1);
     let [totalTvEpisode, setTotalTvEpisode] = useState('');
@@ -23,40 +20,16 @@ const PopularTvPage = (props) => {
 
     const getMovies = async () => {
 
-        const latestTvEpisodeFeed = await Promise.all([
-            fetch(`${latestTvEpisodeUrl}&page=${pageNumber}`),
-            fetch(`${genreList}`)
-        ]);
+        const latestTvEpisodeFeed = await fetch(`${latestTvEpisodeUrl}&page=${pageNumber}`);
 
-
-        if ((latestTvEpisodeFeed[0].status) === 200) {
+        if ((latestTvEpisodeFeed.status) === 200) {
 
             try {
+
                 //=========Storing all fetched data to the state =========
-                const latestTvEpisodeUrl = await latestTvEpisodeFeed[0].json();
-                const genreList = await latestTvEpisodeFeed[1].json();
-
-
-                //========= Extracting the genre id and names =========
-
-                const generatedGenre = genreList.genres.reduce((element, list) => {
-                    const { id, name } = list
-                    element[id] = name
-                    element[28] = "Action"
-                    element[10762] = "Kids"
-                    element[10763] = "News"
-                    element[10764] = "Reality"
-                    element[10765] = "Sci-Fi & Fantasy"
-                    element[10766] = "Soap"
-                    element[10767] = "Talk"
-                    element[10768] = "War & Politics"
-                    element[10759] = "Action & Adventure"
-                    return element
-                });
-                //console.log(generatedGenre)
+                const latestTvEpisodeUrl = await latestTvEpisodeFeed.json();
 
                 setMovies(latestTvEpisodeUrl.results)
-                setGenres(generatedGenre);
                 setError(null);
                 setTotalTvEpisode(latestTvEpisodeUrl.total_pages)
 
@@ -71,8 +44,8 @@ const PopularTvPage = (props) => {
 
 
     //======================= Pagination function ==================
-    const nextPageDefault = (pageNumber, totalPageNumber) => {
-        if (movies && pageNumber < totalPageNumber) {
+    const nextPageDefault = () => {
+        if (movies && pageNumber < totalTvEpisode) {
             setPageNumber(pageNumber += 1)
             getMovies();
             window.scrollTo({
@@ -82,7 +55,7 @@ const PopularTvPage = (props) => {
         }
     }
 
-    const PreviousPageDefault = (pageNumber) => {
+    const PreviousPageDefault = () => {
         if (movies && pageNumber !== 1) {
             setPageNumber(pageNumber -= 1)
             getMovies();
@@ -123,8 +96,6 @@ const PopularTvPage = (props) => {
         )
     })
 
-    // console.log(genres)
-
     return (
 
         <div className="hearder" >
@@ -134,9 +105,9 @@ const PopularTvPage = (props) => {
                         <div className='caption-div'>
                             <span><h2>Latest Tv Episode</h2></span>
                             <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={() => PreviousPageDefault(pageNumber)}><i className="fas fa-arrow-left"></i></button>
+                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
                                 <button className='pagination-btn__info'> {pageNumber} of {totalTvEpisode}</button>
-                                <button className='pagination-btn__next' onClick={() => nextPageDefault(pageNumber, totalTvEpisode)}><i className="fas fa-arrow-right"></i></button>
+                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
                             </div>
                         </div>
 
@@ -146,9 +117,9 @@ const PopularTvPage = (props) => {
 
                         <div className="bottom-pagination">
                             <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={() => PreviousPageDefault(pageNumber)}><i className="fas fa-arrow-left"></i></button>
+                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
                                 <button className='pagination-btn__info'> {pageNumber} of {totalTvEpisode}</button>
-                                <button className='pagination-btn__next' onClick={() => nextPageDefault(pageNumber, totalTvEpisode)}><i className="fas fa-arrow-right"></i></button>
+                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
                             </div>
                         </div>
                     </div>

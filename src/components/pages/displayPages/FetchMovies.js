@@ -192,19 +192,19 @@ function FetchMovies(props) {
                         </Route>
 
                         <Route path="/populartvpage">
-                            <PopularTvPage />
+                            <PopularTvPage genres={genres}/>
                         </Route>
 
                         <Route path="/popularmoviespage">
-                            <PopularMoviesPage />
+                            <PopularMoviesPage genres={genres}/>
                         </Route>
 
                         <Route path="/populartvshowspage">
-                            <PopularTvShowPage />
+                            <PopularTvShowPage genres={genres}/>
                         </Route>
 
                         <Route path="/latestmoviespage">
-                            <LatestMoviesPage />
+                            <LatestMoviesPage genres={genres}/>
                         </Route>
 
                         <Route path="/person/:id">
@@ -240,3 +240,4 @@ const errormsg = {
     margin: '30px',
     textAlign: 'center',
 };
+

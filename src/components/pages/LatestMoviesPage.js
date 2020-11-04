@@ -7,45 +7,29 @@ import Spinner from "../Spinner";
 
 
 const latestMovieUrl = "https://api.themoviedb.org/3/movie/upcoming?&api_key=04c35731a5ee918f014970082a0088b1";
-const genreList = "https://api.themoviedb.org/3/genre/movie/list?&api_key=04c35731a5ee918f014970082a0088b1"
-//let api_key = "5dcf7f28a88be0edc01bbbde06f024ab";
 
 const LatestMoviesPage = (props) => {
 
+    const { genres } = props
+
     const [movies, setMovies] = useState([]);
-    const [genres, setGenres] = useState(null);
     const [error, setError] = useState(false);
     let [pageNumber, setPageNumber] = useState(1);
     let [totalLatestMovies, setTotalLatestMovies] = useState('');
 
-
+    
     const getMovies = async () => {
 
-        const latestMovieFeed = await Promise.all([
-            fetch(`${latestMovieUrl}&page=${pageNumber}`),
-            fetch(`${genreList}`)
-        ]);
+        const latestMovieFeed = await fetch(`${latestMovieUrl}&page=${pageNumber}`);
 
-        // console.log(latestMovieFeed)
-
-        if ((latestMovieFeed[0].status) === 200) {
+        if ((latestMovieFeed.status) === 200) {
 
             try {
                 //=========Storing all fetched data to the state =========
 
-                const latestmovieUrl = await latestMovieFeed[0].json();
-                const genreList = await latestMovieFeed[1].json();
-
-                //========= Extracting the genre id and names =========
-                const generatedGenre = genreList.genres.reduce((element, list) => {
-                    const { id, name } = list
-                    element[id] = name
-                    element[28] = "Action"
-                    return element
-                });
+                const latestmovieUrl = await latestMovieFeed.json();
 
                 setMovies(latestmovieUrl.results)
-                setGenres(generatedGenre);
                 setError(null);
                 setTotalLatestMovies(latestmovieUrl.total_pages)
 
@@ -60,8 +44,8 @@ const LatestMoviesPage = (props) => {
     };
 
     //======================= Pagination function ==================
-    const nextPageDefault = (pageNumber, totalPageNumber) => {
-        if (movies && pageNumber < totalPageNumber) {
+    const nextPageDefault = () => {
+        if (movies && pageNumber < totalLatestMovies) {
             setPageNumber(pageNumber += 1)
             getMovies()
             window.scrollTo({
@@ -71,7 +55,7 @@ const LatestMoviesPage = (props) => {
         }
     }
 
-    const PreviousPageDefault = (pageNumber) => {
+    const PreviousPageDefault = () => {
         if (movies && pageNumber !== 1) {
             setPageNumber(pageNumber -= 1)
             getMovies()
@@ -131,9 +115,9 @@ const LatestMoviesPage = (props) => {
                         <div className='caption-div'>
                             <span> <h2>Trending Movies</h2></span>
                             <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={() => PreviousPageDefault(pageNumber)}><i className="fas fa-arrow-left"></i></button>
+                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
                                 <button className='pagination-btn__info'> {pageNumber} of {totalLatestMovies}</button>
-                                <button className='pagination-btn__next' onClick={() => nextPageDefault(pageNumber, totalLatestMovies)}><i className="fas fa-arrow-right"></i></button>
+                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
                             </div>
                         </div>
 
@@ -143,9 +127,9 @@ const LatestMoviesPage = (props) => {
 
                         <div className="bottom-pagination">
                             <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={() => PreviousPageDefault(pageNumber)}><i className="fas fa-arrow-left"></i></button>
+                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
                                 <button className='pagination-btn__info'> {pageNumber} of {totalLatestMovies}</button>
-                                <button className='pagination-btn__next' onClick={() => nextPageDefault(pageNumber, totalLatestMovies)}><i className="fas fa-arrow-right"></i></button>
+                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
                             </div>
                         </div>
                     </div>
