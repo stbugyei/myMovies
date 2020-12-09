@@ -69,12 +69,13 @@ const PopularMoviesPage = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const movieCard = movies.map((details, index) => {
 
-    const movieCard = movies.map((details, i) => {
         return (
-            <div className="film-list__container" key={details.id}>
+
+            <div className="film-list__container" key={movies[index].id}>
                 <Link to={{
-                    pathname: `/movie/${movies[i].id}`,
+                    pathname: `/movie/${movies[index].id}`,
                     state: { movies }
                 }}>
                     {movies ? <PrefetchCard

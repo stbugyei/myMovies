@@ -1,7 +1,6 @@
 import React from 'react'
 import './../../styles/searchlist.css'
 import Placeholder from './../../images/placeholder.jpeg'
-//const PosterUrl = "https://image.tmdb.org/t/p/original";
 const PosterUrl = "https://image.tmdb.org/t/p/w185";
 
 

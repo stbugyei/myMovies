@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import { withRouter, useParams } from "react-router-dom";
+import { withRouter, useParams, Link } from "react-router-dom";
+import useLocalStorage from "../../useLocalStorage"
 import '../../../styles/showmovies.css'
 import ShowMoviesCard from '../../Cards/ShowMoviesCard';
 import Spinner from '../../Spinner';
@@ -12,32 +13,52 @@ let api_key = "04c35731a5ee918f014970082a0088b1";
 let append = "&append_to_response=credits,videos";
 let release_dates = "release_dates";
 
+
 const ShowMovies = (props) => {
 
     const { id } = useParams();
 
     const [movie, setMovie] = useState([]);
+    const [recommended, setRecommended] = useState([]);
     const [approvedAge, setApprovedAge] = useState([]);
     const [genres, setGenres] = useState('');
     const [languages, setLanguages] = useState('');
     const [cast, setCast] = useState('');
-    const [director, setDirector] = useState('');
     const [tagline, setTagline] = useState('');
     const [runtime, setRuntime] = useState('');
     const [country, setCountry] = useState('');
     const [video, setVideo] = useState('');
     const [error, setError] = useState(false);
+    const [geolocation, setGeolocation] = useState('');
+    const [favoriteList, setFavoriteList] = useLocalStorage("favoriteList", []);
 
+    //============ Favourite functions ===============
+    const addFavorite = (favMovie) => {
+        if (!favoriteList.some(fav => fav.id === favMovie.id)) {
+            setFavoriteList([...favoriteList, favMovie])
+        } else {
+            const newList = favoriteList.filter((item) => item.id !== favMovie.id)
+            setFavoriteList(newList)
+        }
+    }
+
+
+    const [url] = useState("https://get.geojs.io/v1/ip/geo.json")
+    const [baseUrl] = useState(`${urls}${id}?api_key=${api_key}${append}`);
+    const [similarUrl] = useState(`${urls}${id}/similar?api_key=${api_key}`);
 
     useEffect(() => {
 
         const getMovies = async () => {
 
-            const details = await fetch(`${urls}${id}?api_key=${api_key}${append}`);
+            const details = await fetch(baseUrl);
+            const similar = await fetch(similarUrl);
             const detailedData = await details.json();
+            const similarData = await similar.json();
+            setRecommended(similarData.results)
+
             const certification = await fetch(`${urls}${id}/${release_dates}?api_key=${api_key}`);
             const certifieddAge = await certification.json();
-
             setMovie(detailedData);
             setTagline(detailedData.tagline)
             setRuntime(detailedData.runtime)
@@ -49,8 +70,6 @@ const ShowMovies = (props) => {
                     //========== extracting additonal movie info =============
                     const genres = detailedData.genres.map(gen => (gen.name));
                     const languages = detailedData.spoken_languages.map(lan => (lan.name))
-                    const cast = detailedData.credits.cast.map(cas => (cas.name))
-                    const director = detailedData.credits.crew.map(director => (director.name))
                     const country = detailedData.production_countries.map(country => (country.name))
                     const video = detailedData.videos.results.map(video => (video.key))
                     const ageRating = certifieddAge.results.map(age => (age.release_dates[0].certification))
@@ -58,8 +77,7 @@ const ShowMovies = (props) => {
                     setApprovedAge(ageRating[0])
                     setGenres(genres.join(', '))
                     setLanguages(languages.join(', '))
-                    setCast(cast.slice(0, 5).join(', '))
-                    setDirector(director.slice(0, 5).join(', '))
+                    setCast(detailedData)
                     setCountry((country.slice(0, 5).join(', ')))
                     setVideo(video)
 
@@ -73,7 +91,15 @@ const ShowMovies = (props) => {
         };
 
         getMovies();
-    }, [error, id]);
+
+       // ============ Get geolocation ==============
+        fetch(url)
+            .then(response => response.json())
+            .then(contents => setGeolocation(contents))
+            .catch((error) => console.log(error))
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [baseUrl, similarUrl, url]);
 
     let keys = video[0];
     let keySecond = video[1];
@@ -81,6 +107,23 @@ const ShowMovies = (props) => {
     if (!(movie && Object.keys(movie).length)) {
         return <Spinner />
     }
+
+
+    if (cast.credits === undefined) { return '' }
+
+    const crew = cast.credits.cast.slice(0, 6).map((name, i) => {
+        return <Link key={name.id} to={{
+            pathname: `/person/${name.id}`,
+        }}> <span key={name.id}>{name.name}{cast.credits.cast.slice(0, 6).length - 1 === i ? '' : ','}</span></Link>
+    })
+
+    const director = cast.credits.crew.slice(0, 6).map((director, i) => {
+        return <Link key={director.credit_id} to={{
+            pathname: `/person/${director.id}`,
+        }}> <>{director.name}{cast.credits.crew.slice(0, 6).length - 1 === i ? '' : ','}</></Link>
+    })
+
+   
 
     return (
 
@@ -90,25 +133,27 @@ const ShowMovies = (props) => {
                 <div className='showmovies_wrapper'>
                     <ShowMoviesCard
                         movie={movie}
-                        id={id}
+                        recommended={recommended}
+                        geolocation={geolocation}
+                        streamId={id}
                         keys={keys}
                         keySecond={keySecond}
                         runtime={runtime}
-                        genres={genres}
+                        showGenres={genres}
                         approvedAge={approvedAge}
                         tagline={tagline}
                         country={country}
                         languages={languages}
                         director={director}
-                        cast={cast}
+                        cast={crew}
                         PosterUrl={PosterUrl}
                         placeholder={placeholder}
+                        addFavorite={addFavorite}
+                        favoriteList={favoriteList}
                     />
                 </div>
             </div>
         </div>
-
-
     )
 }
 

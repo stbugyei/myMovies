@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import '../../styles/showmovies.css';
 import placeholder from '../../images/placeholder.jpeg';
 const PosterUrl = "https://image.tmdb.org/t/p/w185";
@@ -10,7 +10,6 @@ const ShowPersonCard = (props) => {
 
     const { personInfo, additionalNames, crew, placeOfBirth, biography, crewRow, castRow, genres } = props
 
-    // console.log(personInfo)
 
     //==================== vote formatting functions =============
     const averageRate = (rating) => {
@@ -37,24 +36,30 @@ const ShowPersonCard = (props) => {
     //============== Text trancating functions =========
     const trancateText = (text) => { return (text.substr(0, 200)).trim().concat(' ...') }
 
-    // console.log( personInfo.combined_credits.cast[0].genre_ids)
+        //======= Navigation functions =========
 
+        const history = useHistory();
+        const handleClick = () => {
+            history.goBack();
+        }
+    
 
     return (
         <>
             <div className="banner-linkref">
-                <div style={{marginBottom:'5px'}}>
+                <div style={{ marginBottom: '5px' }}>
                     <span>Home</span>
                     <span>Person</span>
                     <span>{personInfo.name}
                     </span>
                 </div>
+                <div><button className="btn-back" onClick={handleClick}>Back</button></div>
             </div>
 
             <section className='personinfo_wrapper'>
 
                 <div className="movieinfo-container">
-                    <div className="personinfo-image" style={{ backgroundImage: `url(${PosterUrlOriginal + personInfo.profile_path})`}}>
+                    <div className="personinfo-image" style={{ backgroundImage: `url(${PosterUrlOriginal + personInfo.profile_path})` }}>
                     </div>
 
                     <div className="personinfo-details">
@@ -114,12 +119,17 @@ const ShowPersonCard = (props) => {
                                                     {data.poster_path === null ? <img src={placeholder} alt="" /> : <img src={`${PosterUrl}` + data.poster_path} alt="" />}
                                                 </div>
                                                 <div className="cast-roles__info">
-                                                    <h3>{data.character}</h3>
-                                                    <h5><span style={{ display: 'flex', justifyContent: 'space-between' }}>{data.release_date} {data.first_air_date}<small className={averageRate(data.vote_average)}> <i className="fas fa-star"></i>  {data.vote_average}</small></span></h5>
+                                                    <h4 style={{
+                                                        color: '#fff', whiteSpace: 'nowrap',
+                                                        textOverflow: 'ellipsis',
+                                                        overflow: 'hidden'
+                                                    }}>{data.character}</h4>
+
+                                                    <h5><span style={{ display: 'flex', justifyContent: 'space-between' }}>{data.release_date} {data.first_air_date}<small className={averageRate(data.vote_average)}> <i className="fas fa-star"></i>  {data.vote_average}</small></span>
+                                                    </h5>
+
                                                 </div>
                                                 <button className='btn-mediatype__person'><small> {mediaType(data.media_type)}</small></button>
-
-                                                {/* <button className="btn-play"><i className="fas fa-play"></i></button> */}
 
                                             </div>
 

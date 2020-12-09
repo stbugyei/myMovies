@@ -8,7 +8,6 @@ import '../../../styles/searchlist.css'
 const PopularMovies = (props) => {
 
     const { preFetchMovies, genres } = props
-    //console.log(preFetchMovies)
 
     //======= Navigation functions =========
     const history = useHistory();
@@ -16,11 +15,11 @@ const PopularMovies = (props) => {
     const handleClick = () => { history.push("/popularmoviespage"); }
 
 
-    const movieCard = preFetchMovies.map((details, i) => {
+    const movieCard = preFetchMovies.map((details, index) => {
         return (
-            <div className="film-list__container" key={i}>
+            <div className="film-list__container" key={preFetchMovies[index].id}>
                 <Link to={{
-                    pathname: `/movie/${preFetchMovies[i].id}`,
+                    pathname: `/movie/${preFetchMovies[index].id}`,
                     state: { preFetchMovies }
                 }}>
                     <PrefetchCard

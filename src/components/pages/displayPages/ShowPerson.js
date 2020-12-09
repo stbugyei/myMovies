@@ -21,17 +21,18 @@ const ShowPerson = (props) => {
     const [additionalNames, setAdditionalNames] = useState('');
     const [placeOfBirth, setPlaceOfBirth] = useState('');
     const [error, setError] = useState(false);
+    const [baseUrl] = useState(`${urls}${id}?api_key=${api_key}${append}`);
 
     useEffect(() => {
+
         const getPerson = async () => {
 
-            const person = await fetch(`${urls}${id}?api_key=${api_key}${append}`);
+            const person = await fetch(baseUrl);
 
             if (person) {
                 try {
                     const personalDetails = await person.json();
                     setPersonInfo(personalDetails)
-                    //console.log(personalDetails)
 
                     //========= Extracting Personal data =========
                     setBiography(personalDetails.biography);
@@ -48,7 +49,7 @@ const ShowPerson = (props) => {
             }
         }
         getPerson();
-    }, [id]);
+    }, [baseUrl]);
 
 
     if (!(personInfo && Object.keys(personInfo).length)) {

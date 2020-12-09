@@ -5,7 +5,6 @@ import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
 
-
 const latestMovieUrl = "https://api.themoviedb.org/3/movie/upcoming?&api_key=04c35731a5ee918f014970082a0088b1";
 
 const LatestMoviesPage = (props) => {
@@ -16,8 +15,8 @@ const LatestMoviesPage = (props) => {
     const [error, setError] = useState(false);
     let [pageNumber, setPageNumber] = useState(1);
     let [totalLatestMovies, setTotalLatestMovies] = useState('');
+   
 
-    
     const getMovies = async () => {
 
         const latestMovieFeed = await fetch(`${latestMovieUrl}&page=${pageNumber}`);
@@ -26,9 +25,7 @@ const LatestMoviesPage = (props) => {
 
             try {
                 //=========Storing all fetched data to the state =========
-
                 const latestmovieUrl = await latestMovieFeed.json();
-
                 setMovies(latestmovieUrl.results)
                 setError(null);
                 setTotalLatestMovies(latestmovieUrl.total_pages)
@@ -79,16 +76,18 @@ const LatestMoviesPage = (props) => {
     }, []);
 
 
-    const movieCard = movies.map((details, i) => {
+    const movieCard = movies.map((details, index) => {
 
         return (
 
             <div className="film-list__container" key={details.id}>
                 <Link to={{
-                    pathname: `/movie/${movies[i].id}`,
+                    pathname: `/movie/${movies[index].id}`,
                     state: { movies }
                 }}>
                     {movies ? <PrefetchCard
+                        index={index}
+                        movies={movies}
                         poster_path={details.poster_path}
                         title={details.title}
                         name={details.name}
@@ -96,12 +95,12 @@ const LatestMoviesPage = (props) => {
                         first_air_date={details.first_air_date}
                         vote_average={details.vote_average}
                         overview={details.overview}
+                        details={details}
                         genre_ids={details.genre_ids}
                         genres={genres}
                     /> : null}
                 </Link>
             </div>
-
         )
     })
 

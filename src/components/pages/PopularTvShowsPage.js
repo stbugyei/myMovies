@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
-import PrefetchCard from "../Cards/PrefetchCard";
+import PrefetchCard from '../Cards/PrefetchCard';
 import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
@@ -71,14 +71,15 @@ const PopularTvShowPage = (props) => {
     }, []);
 
 
-    const movieCard = movies.map((details, i) => {
+    const movieCard = movies.map((details, index) => {
         return (
-            <div className="film-list__container" key={details.id}>
+            <div className="film-list__container" key={movies[index].id}>
                 <Link to={{
-                    pathname: `/tv/${movies[i].id}`,
+                    pathname: `/tv/${movies[index].id}`,
                     state: { movies }
                 }}>
                     <PrefetchCard
+                        movies={movies}
                         poster_path={details.poster_path}
                         title={details.title}
                         name={details.name}
@@ -130,7 +131,6 @@ const PopularTvShowPage = (props) => {
                 }
             </div>
         </div>
-
     )
 }
 

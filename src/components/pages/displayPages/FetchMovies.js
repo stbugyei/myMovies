@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, withRouter, useLocation } from "react-router-dom";
 import useDismiss from "use-dismiss";
+import FavoriteMovies from "../displayPages/FavoriteMovies"
 import Banner from "./../../Banner";
 import Form from './../../Form'
 import IndexPage from "./../indexPage/IndexPage";
@@ -16,6 +17,7 @@ import TvSeasons from "./TvSeasons";
 import Spinner from "../../Spinner";
 import ShowPerson from "./ShowPerson";
 import './../../../styles/form.css'
+import WelcomePage from "./WelcomePage";
 
 
 const genreList = "https://api.themoviedb.org/3/genre/movie/list?&api_key=04c35731a5ee918f014970082a0088b1"
@@ -26,7 +28,6 @@ const popularTvUrl = "https://api.themoviedb.org/3/tv/popular?&api_key=04c35731a
 const url = "https://api.themoviedb.org/3/search/multi";
 let api_key = "04c35731a5ee918f014970082a0088b1";
 //let api_key = "5dcf7f28a88be0edc01bbbde06f024ab";
-
 
 function FetchMovies(props) {
 
@@ -161,13 +162,13 @@ function FetchMovies(props) {
     const ref = useDismiss(() => setModal(false));
     const displayDiv = () => { setModal(true) }
 
-    // console.log(error)
 
     if (!(preFetchMovies && Object.keys(preFetchMovies).length)) {
         return <Spinner />
     }
 
     return (
+
         <div>
             <Banner />
             <input type="checkbox" id="moveform" />
@@ -176,7 +177,7 @@ function FetchMovies(props) {
                     <i className="fas fa-search"></i>
                 </span>
             </label>
-            { showform && <div className='banner-wrapper' onChange={searchMovies} query={query}>
+            {showform && <div className='banner-wrapper' onChange={searchMovies} query={query}>
                 <div className="form-content" onClick={displayDiv}>
                     <Form />
                     {modal ? <div ref={ref}><SearchList movies={movies} /> </div> : null}
@@ -192,19 +193,23 @@ function FetchMovies(props) {
                         </Route>
 
                         <Route path="/populartvpage">
-                            <PopularTvPage genres={genres}/>
+                            <PopularTvPage genres={genres} />
                         </Route>
 
                         <Route path="/popularmoviespage">
-                            <PopularMoviesPage genres={genres}/>
+                            <PopularMoviesPage genres={genres} />
                         </Route>
 
                         <Route path="/populartvshowspage">
-                            <PopularTvShowPage genres={genres}/>
+                            <PopularTvShowPage genres={genres} />
                         </Route>
 
                         <Route path="/latestmoviespage">
-                            <LatestMoviesPage genres={genres}/>
+                            <LatestMoviesPage genres={genres} />
+                        </Route>
+
+                        <Route path="/favoritemovies">
+                            <FavoriteMovies />
                         </Route>
 
                         <Route path="/person/:id">
@@ -223,8 +228,12 @@ function FetchMovies(props) {
                             <ShowMovies movies={movies} query={query} genres={genres} />
                         </Route>
 
-                        <Route exact path="/">
+                        <Route exact path="/home">
                             <IndexPage preFetchMovies={preFetchMovies} genres={genres} />
+                        </Route>
+
+                        <Route exact path="/">
+                            <WelcomePage />
                         </Route>
 
                     </Switch> </>
@@ -240,4 +249,3 @@ const errormsg = {
     margin: '30px',
     textAlign: 'center',
 };
-

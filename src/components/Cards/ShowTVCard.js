@@ -1,27 +1,42 @@
-import React from 'react';
+import React from "react";
 import YouTube from 'react-youtube';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import '../../styles/showmovies.css';
-import placeholder from '../../images/placeholder.jpeg';
+import RecommendedCard from './RecommendedCard';
+import CharacterProfileCard from "./CharacterProfileCard";
 const PosterUrl = "https://image.tmdb.org/t/p/original";
 
 
 const ShowTVCard = (props) => {
 
-    const { movie, keys, runtime, genres, approvedAge, tagline, country, languages, director, cast, getSeasonAndEpisode, episodeInfo, keySecond } = props
+
+    const { favoriteTvList, addFavorite, movie, recommended, cast, keys, keySecond, runtime, genres, approvedAge, tagline, country, languages, director, getSeasonAndEpisode, episodeInfo, clicked, activeColor } = props
+
+    //============== vote formmtting functions =========
+    const averageRate = (rating) => {
+        if (rating >= 8) {
+            return 'green'
+        } else if (rating >= 5) {
+            return 'yellow'
+        } else {
+            return 'red'
+        }
+    }
 
     //======= Navigation functions =========
 
     const history = useHistory();
     const handleClick = () => {
-        history.goBack(-1);
+        history.goBack();
     }
 
+
+    const colorToggle = favoriteTvList.filter(data => data.id === movie.id)
 
     return (
         <>
             <div className="banner-linkref">
-
                 <div>
                     <span>Home</span>
                     <span>TV-Series</span>
@@ -44,22 +59,35 @@ const ShowTVCard = (props) => {
                     </div>
                     <div className="movieinfo-details">
 
-                        {movie.title || movie.name ? <span className='movieinfo-details__title'><h1>{movie.title}{movie.name}</h1></span> : <span>Nan</span>}
+                        {movie.title || movie.name ? <span className='movieinfo-details__title'><h3>{movie.title}{movie.name}</h3></span> : <span>Nan</span>}
 
                         <div className="movieinfo-details__item">
                             {approvedAge ? <div> <span style={{ border: '1px solid', padding: '1px 2px', borderRadius: '4px' }}>{approvedAge} </span></div> : <span>Nan</span>}
 
                             <div>{runtime ? <span>{runtime} min</span> : null}</div>
 
-                            {movie ? <div><span> {movie.last_air_date}</span></div> : <span>Nan</span>}
+                            {movie ? <div><span> {(movie.first_air_date).slice(0, 4)}</span></div> : <span>Nan</span>}
 
-                            {movie.vote_average || movie.vote_count ? <div><span><i className="far fa-star"></i> {movie.vote_average} /10 ({movie.vote_count.toLocaleString('en-US')})</span></div> : ''}
+                            {movie.vote_average || movie.vote_count ? <div><span className={averageRate(movie.vote_average)}><i className="far fa-star"></i> {movie.vote_average} /10 ({movie.vote_count.toLocaleString('en-US')})</span></div> : ''}
+
+
+                            <div>
+                                <button className="btn-addfav__show" onClick={() => addFavorite(movie)}>
+                                    {colorToggle.length !== 0 ? <><IoIosHeart
+                                        style={{ color: 'red', fontSize: '20px' }}
+                                    /><small style={{ color: '#fff' }}> <sub>- Remove from List</sub></small>
+                                    </> :
+                                        <> <IoIosHeartEmpty
+                                            style={{ color: 'white', fontSize: '20px' }}
+                                        /> <small style={{ color: '#fff' }}> <sub> + Add to List</sub></small></>}
+                                </button>
+                            </div>
                         </div>
 
                         {tagline ? <h3 style={{ color: '#fff', marginBottom: '15px' }}>{tagline}</h3> : ''}
 
                         <div className="sypnosis" style={{ width: '100%' }}>
-                            <h2 style={{ color: '#fff', paddingBottom: '10px' }}>Overview</h2>
+                            <h3 style={{ color: '#fff', paddingBottom: '10px' }}>Overview</h3>
                             <p style={{ color: '#adb5bd' }}>{movie.overview}</p>
                         </div>
 
@@ -71,11 +99,11 @@ const ShowTVCard = (props) => {
 
                             <div><span>Languages :</span> {languages ? <span>{languages}</span> : <span>Not Available</span>}</div>
 
-                            <div><span>Year Released :</span>{movie.first_air_date ? <span>{(movie.first_air_date).slice(0, 4)}</span> : <span>Not Available</span>}</div>
+                            <div><span>Last Air Date:</span>{movie.first_air_date ? <span>{(movie.last_air_date)}</span> : <span>Not Available</span>}</div>
 
-                            <div><span>cast :</span> {cast ? <span>{cast}</span> : <span>Not Available</span>} </div>
+                            <div><span>Cast :</span> {cast.length !== 0 ? <span>{cast}</span> : <span>Not Available</span>}</div>
 
-                            <div><span>Created by :</span>{director ? <span>{director}</span> : <span>Not Available</span>} </div>
+                            <div><span>Created by :</span>{director.length !== 0 ? <span>{director}</span> : <span>Not Available</span>} </div>
 
                         </div>
 
@@ -94,7 +122,10 @@ const ShowTVCard = (props) => {
                         {
                             movie.seasons.map((season) => {
                                 return (
-                                    <div className="seasons-content" key={season.id} onClick={() => getSeasonAndEpisode(season.season_number)}>
+                                    <div className={`${(clicked === season.season_number ? 'seasons-content__active' : 'seasons-content')}`} key={season.id} onClick={() => {
+                                        getSeasonAndEpisode(season.season_number);
+                                        activeColor(season.season_number);
+                                    }}>
                                         <div>{season.name}
                                         </div>
                                         <div className="airdate">{season.air_date}</div>
@@ -109,8 +140,6 @@ const ShowTVCard = (props) => {
                     <h2>Episodes</h2>
                     <div className="episodes">
                         {episodeInfo}
-
-                        {/* <img src={`${PosterUrl}` + detailedEpisode.images.stills[0].file_path} alt="" /> */}
                         <img src={`${PosterUrl}` + movie.still_path} alt="" />
                     </div>
                 </div>
@@ -119,28 +148,11 @@ const ShowTVCard = (props) => {
             <section className="character-profile">
                 <h2>Series Cast</h2>
                 <div className="character-profile-content">
-                    {
-                        movie.credits.cast.slice(0, 16).map((data) => {
-                            return (
-                                <div className="character-profile__card" key={data.id}>
-                                    <Link key={data.id} to={{
-                                        pathname: `/person/${data.id}`,
-                                        state: { movie }
-                                    }}>
-                                        <div className="profile-avatar">
-                                            {data.profile_path === null ? <img src={placeholder} alt="" /> : <img src={`${PosterUrl}` + data.profile_path} alt="" />}
-                                        </div>
-                                        <div className="profile-info">
-                                            <h3>{data.name}</h3>
-                                            <h5>{data.character}</h5>
-                                        </div>
-                                    </Link>
-                                </div>
-                            )
-                        })
-                    }
+                    <CharacterProfileCard movie={movie} />
                 </div>
             </section>
+
+            {recommended.length !== 0 ? <RecommendedCard movieInfo={recommended} genres={genres} /> : ''}
         </>
     )
 }

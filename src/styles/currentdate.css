@@ -1,0 +1,45 @@
+.date-wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%; 
+	display: flex;
+	flex-direction: column;
+	color: #fff;
+	padding: 10px;
+    text-shadow: 0 3px 6px #3b3e41; 
+    z-index: 99999;
+}
+
+.curtime {
+	font-size: 80px;
+	font-family: sans-serif;
+}
+
+.meridiem {
+	font-size: 30px;
+	text-transform: lowercase;
+}
+
+.formatedDate{
+    font-size: 20px;
+}
+
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .date-wrapper{
+        width: 100%;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .date-wrapper{
+        width: 60%;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+    .date-wrapper{
+        width: 100%;
+    }
+}

@@ -15,11 +15,11 @@ const LatestMovies = (props) => {
 
     const handleClick = () => { history.push("/latestmoviespage"); }
 
-    const movieCard = preFetchMovies.map((details, i) => {
+    const movieCard = preFetchMovies.map((details, index) => {
         return (
-            <div className="film-list__container" key={i}>
+            <div className="film-list__container" key={details.id}>
                 <Link to={{
-                    pathname: `/movie/${preFetchMovies[i].id}`,
+                    pathname: `/movie/${preFetchMovies[index].id}`,
                     state: { preFetchMovies }
                 }}>
                     <PrefetchCard 

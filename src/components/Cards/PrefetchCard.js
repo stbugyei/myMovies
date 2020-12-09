@@ -3,8 +3,6 @@ import '../../styles/latestmovies.css'
 import '../../styles/searchlist.css'
 import Placeholder from '../../images/placeholder.jpeg'
 const PosterUrl = "https://image.tmdb.org/t/p/w185";
-//const PosterUrl = "https://image.tmdb.org/t/p/original";
-
 
 
 const PrefetchCard = (props) => {
@@ -25,22 +23,14 @@ const PrefetchCard = (props) => {
         }
     }
 
-
     return (
         <>
             <div className="film-list__card">
+
                 <div className="film-list__poster">
                     {poster_path === null ? <img className="optional-image" src={Placeholder} alt="poster" /> :
                         <img src={`${PosterUrl}` + poster_path} alt="poster" />}
                 </div>
-                {/* 
-                 {title || name ? <h5 className='title'>{title}{name} </h5> : <span>Nan</span>}
-
-                <div className="date-rate">
-                    <span><i className="far fa-calendar-alt"></i> {release_date}{first_air_date}</span>
-
-                    <span className={averageRate(vote_average)}> <i className="fas fa-star"></i> {vote_average}</span>
-                </div>  */}
             </div>
 
             <div className="info-wrapper" style={{ position: 'relative' }}>
@@ -53,6 +43,7 @@ const PrefetchCard = (props) => {
                     <span className={averageRate(vote_average)}> <i className="fas fa-star"></i> {vote_average}</span>
                 </div>
             </div>
+
 
             <div className="film-list__subdetails">
                 {title || name ? <h4 style={{ marginBottom: '5px', textTransform: 'capitalize' }}>{title}{name}</h4> : <span>Nan</span>}

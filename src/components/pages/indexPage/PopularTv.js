@@ -3,7 +3,6 @@ import { useHistory, withRouter, Link } from "react-router-dom";
 import PrefetchCard from '../../Cards/PrefetchCard';
 import '../../../styles/latestmovies.css'
 import '../../../styles/searchlist.css'
-//import Spinner from '../../Spinner';
 
 const PopularTv = (props) => {
 
@@ -16,14 +15,15 @@ const PopularTv = (props) => {
     const handleClick = () => { history.push("/populartvpage"); }
 
 
-    const movieCard = preFetchMovies.map((details, i) => {
+    const movieCard = preFetchMovies.map((details, index) => {
         return (
-            <div className="film-list__container" key={i}>
+            <div className="film-list__container" key={preFetchMovies[index].id}>
                 <Link to={{
-                    pathname: `/tv/${preFetchMovies[i].id}`,
+                    pathname: `/tv/${preFetchMovies[index].id}`,
                     state: { preFetchMovies }
                 }}>
                     <PrefetchCard
+                        index={index}
                         poster_path={details.poster_path}
                         title={details.title}
                         name={details.name}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
-import PrefetchCard from "../Cards/PrefetchCard";
+import PrefetchCard from '../Cards/PrefetchCard';
 import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
@@ -16,7 +16,6 @@ const PopularTvPage = (props) => {
     const [error, setError] = useState(false);
     let [pageNumber, setPageNumber] = useState(1);
     let [totalTvEpisode, setTotalTvEpisode] = useState('');
-
 
     const getMovies = async () => {
 
@@ -73,24 +72,24 @@ const PopularTvPage = (props) => {
     }, []);
 
 
-    const movieCard = movies.map((details, i) => {
+    const movieCard = movies.map((details, index) => {
         return (
-            <div className="film-list__container" key={details.id}>
+            <div className="film-list__container" key={movies[index].id}>
                 <Link to={{
-                    pathname: `/tv/${movies[i].id}`,
+                    pathname: `/tv/${movies[index].id}`,
                     state: { movies }
                 }}>
-                    {movies ? <PrefetchCard
-                        poster_path={details.poster_path}
-                        title={details.title}
-                        name={details.name}
-                        release_date={details.release_date}
-                        first_air_date={details.first_air_date}
-                        vote_average={details.vote_average}
-                        overview={details.overview}
-                        genre_ids={details.genre_ids}
-                        genres={genres}
-                    /> : null}
+                {movies ? <PrefetchCard
+                    poster_path={details.poster_path}
+                    title={details.title}
+                    name={details.name}
+                    release_date={details.release_date}
+                    first_air_date={details.first_air_date}
+                    vote_average={details.vote_average}
+                    overview={details.overview}
+                    genre_ids={details.genre_ids}
+                    genres={genres}
+                /> : null}
                 </Link>
             </div>
         )

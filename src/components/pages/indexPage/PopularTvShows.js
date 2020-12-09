@@ -9,19 +9,16 @@ const PopularTvShow = (props) => {
 
     const { preFetchMovies, genres } = props
 
-    //console.log (preFetchMovies)
-
-
     //======= Navigation functions =========
     const history = useHistory();
 
     const handleClick = () => { history.push("/populartvshowspage"); }
 
-    const movieCard = preFetchMovies.map((details, i) => {
+    const movieCard = preFetchMovies.map((details, index) => {
         return (
-            <div className="film-list__container" key={details.id}>
+            <div className="film-list__container" key={preFetchMovies[index].id}>
                 <Link to={{
-                    pathname: `/tv/${preFetchMovies[i].id}`,
+                    pathname: `/tv/${preFetchMovies[index].id}`,
                     state: { preFetchMovies }
                 }}>
                     <PrefetchCard

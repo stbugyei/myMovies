@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { withRouter, useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import useLocalStorage from "../../useLocalStorage"
 import placeholder from './../../../images/placeholder.jpeg'
 import '../../../styles/showmovies.css'
 import Spinner from '../../Spinner';
@@ -12,43 +14,59 @@ let append = "&append_to_response=credits,videos,images,season/1"
 
 const TvSeasons = (props) => {
 
-    //======= Navigation functions =========
-    const history = useHistory();
-    // const handleClick = () => {
-    //     history.goBack(-1);
-    // }
-
-    const id = props.match.params.id;
-    const tv_id = history.location.state.movie.id;
-    const season_number = props.location.state.detailedSeasonEpisode.season_number;
-    const runtime = props.location.state.movie.episode_run_time;
-    const genres = props.location.state.movie.genres.map(gen => (gen.name));
-    const season_name = props.location.state.movie.name;
-
-    const [detailedEpisode, setDetailedEpisode] = useState('');
-    const [crew, setCrew] = useState('');
-    const [guestStars, setGuestStars] = useState('');
+    const [detailedEpisode, setDetailedEpisode] = useState([]);
     const [video, setVideo] = useState('');
     const [error, setError] = useState(false);
+    const [geolocation, setGeolocation] = useState('');
+    const [favoriteTvEpisodeList, setFavoriteTvEpisodeList] = useLocalStorage("favoriteTvEpisodeList", []);
 
+    //============ Fetching data from the localstorage ===============
+    const selectedMovie = JSON.parse(localStorage.getItem('selectedMovie'))
+    const seasonEpisodeNumber = JSON.parse(localStorage.getItem('seasonEpisodeNumber'))
+
+    const fetchFromLocalStorageGenres = () => {
+        if (selectedMovie) {
+            let genres = selectedMovie.genres.map(gen => (gen.name));
+            return genres
+        }
+    }
+
+    //============ Storing localstorage data into variables ===============
+
+    let episodeId = props.match.params.id;
+    let tv_id = selectedMovie.id;
+    let seasonName = selectedMovie.name;
+    let season_number = seasonEpisodeNumber.season_number;
+    let runtime = selectedMovie.episode_run_time;
+    let genres = fetchFromLocalStorageGenres();
+
+    //============ Favourite functions ===============
+
+    const addFavorite = (favMovie) => {
+        if (!favoriteTvEpisodeList.some(fav => fav.id === favMovie.id)) {
+            setFavoriteTvEpisodeList([...favoriteTvEpisodeList, favMovie])
+
+        } else {
+            const newList = favoriteTvEpisodeList.filter((item) => item.id !== favMovie.id)
+            setFavoriteTvEpisodeList(newList)
+        }
+
+    }
+
+    const [url] = useState("https://get.geojs.io/v1/ip/geo.json");
+    const [baseUrl] = useState(`${urls}${tv_id}/season/${season_number}/episode/${episodeId}?api_key=${api_key}${append}`);
 
     useEffect(() => {
 
         const getEpisode = async () => {
 
-            const episode = await fetch(`${urls}${tv_id}/season/${season_number}/episode/${id}?api_key=${api_key}${append}`);
+            const episode = await fetch(baseUrl);
 
             if (episode) {
                 try {
                     const detailedEpisode = await episode.json();
-                    setDetailedEpisode(detailedEpisode)
-
-                    //========= Extracting episodes data =========
-                    const crew = detailedEpisode.credits.cast.map(name => (name.name));
-                    const stars = detailedEpisode.guest_stars.map(star => (star.name));
                     const video = detailedEpisode.videos.results.map(video => (video.key));
-                    setCrew(crew.slice(0, 4).join(', '))
-                    setGuestStars(stars.slice(0, 5).join(', '));
+                    setDetailedEpisode(detailedEpisode)
                     setVideo(video);
                     setError('');
 
@@ -60,16 +78,23 @@ const TvSeasons = (props) => {
                 console.log("The resource is not available")
             }
         }
+
         getEpisode();
 
+        //============ Get geolocation ==============
+        fetch(url)
+            .then(response => response.json())
+            .then(contents => setGeolocation(contents))
+            .catch((error) => console.log(error))
 
-    }, [id, season_number, tv_id]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    }, [baseUrl, url]);
 
 
     let keys = video[0];
     let keySecond = video[1];
 
-    if (!history) { return null }
 
     if (!(detailedEpisode && Object.keys(detailedEpisode).length)) {
         return <Spinner />
@@ -80,27 +105,28 @@ const TvSeasons = (props) => {
         <div className="hearder">
             <div className="container">
                 <div className='showmovies_wrapper'>
-                    {!error ? <TVSeasonsCard
-                        season_name={season_name}
-                        season_number={season_number}
-                        id={id}
-                        tv_id={tv_id}
-                        detailedEpisode={detailedEpisode}
-                        keys={keys}
-                        keySecond={keySecond}
-                        PosterUrl={PosterUrl}
-                        placeholder={placeholder}
-                        runtime={runtime}
-                        genres={genres}
-                        guestStars={guestStars}
-                        crew={crew}
-                    /> : <span>Resource is not Available</span>}
-
+                    {!error ?
+                        <TVSeasonsCard
+                            tv_id={tv_id}
+                            geolocation={geolocation}
+                            season_name={seasonName}
+                            season_number={season_number}
+                            streamId={episodeId}
+                            seasonName={seasonName}
+                            detailedEpisode={detailedEpisode}
+                            keys={keys}
+                            keySecond={keySecond}
+                            PosterUrl={PosterUrl}
+                            placeholder={placeholder}
+                            runtime={runtime}
+                            genres={genres}
+                            addFavorite={addFavorite}
+                            favoriteTvEpisodeList={favoriteTvEpisodeList}
+                        /> :
+                        <span>Resource is not Available</span>}
                 </div>
             </div>
         </div>
-
-
     )
 }
 

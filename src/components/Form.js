@@ -9,7 +9,6 @@ const Form = ({ query, displayDiv, handleChange }) => {
         <div className="form">
             <input
                 className='search-input'
-                // name='name'
                 value={query}
                 type='search'
                 placeholder='Search ...'
