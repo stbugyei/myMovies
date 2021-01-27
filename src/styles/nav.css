@@ -20,6 +20,127 @@ nav ul {
 	transform: all .3s;
 }
 
+.genre-wrapper {
+	position: relative;
+	font-size: 14px;
+	cursor: pointer;
+	display: block;
+	text-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 1px 2px rgb(0 0 0 / 23%);
+	transition: all .4s;
+}
+
+.genre-wrapper a {
+	display: block;
+}
+
+.genre-wrapper span {
+	cursor: pointer;
+}
+
+.genre-wrapper:hover {
+	color: cyan;
+}
+
+.genre-container {
+	position: absolute;
+	width: 785px;
+	top: 35px;
+	padding: 15px 0px;
+	border-radius: 5px;
+	overflow: hidden;
+	display: flex;
+	justify-content: space-between;
+	background-color: lavender;
+	box-shadow: 10px 10px 14px 1px rgba(00, 00, 00, 0.2);
+	transform-origin: top left;
+	transform: scale(1);
+	transition: all .4s;
+}
+
+.genre-container1 {
+	position: absolute;
+	width: 785px;
+	top: 35px;
+	padding: 15px 0px;
+	border-radius: 5px;
+	overflow: hidden;
+	display: flex;
+	justify-content: space-between;
+	background-color: lavender;
+	box-shadow: 10px 10px 14px 1px rgba(00, 00, 00, 0.2);
+	transform-origin: top left;
+	transform: scale(0);
+	transition: all .4s;
+}
+
+.genre-container::before {
+	position: absolute;
+	content: "";
+	top: 25%;
+	left: 48%;
+	width: 3px;
+	height: 50%;
+	border-radius: 25px;
+	background-color: red;
+	box-shadow: 10px 10px 1px 1px rgb(0 0 0 / 20%);
+}
+
+.genre-content__movie,
+.genre-content__tv {
+	width: 45%;
+	font-size: .9em;
+	color: #011;
+	position: relative;
+	display: block;
+	text-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
+	transition: all .3s;
+}
+
+.genre-content__movie {
+	padding-left: 40px;
+}
+
+.genre-content__movie li,
+.genre-content__tv li {
+	float: left;
+	width: 45%;
+	margin: initial;
+}
+
+.genre-content__movie li a,
+.genre-content__tv li a {
+	color: #011;
+}
+
+.genre-content__movie li:last-child a, .genre-content__tv li:last-child a{
+	font-size: 14px;
+	color: #011;
+	padding: 5px 9px;
+}
+
+.genre-content__tv li a:hover,
+.genre-content__movie li a:hover {
+	color: red;
+	transition: all .3s;
+}
+
+.genre-content__tv li a:before,
+.genre-content__movie li a::before {
+	content: "";
+	position: initial;
+	top: initial;
+	height: initial;
+	width: initial;
+	left: initial;
+	background: initial;
+	transition: all .5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.genre-wrapper h3 {
+	color: red;
+	padding: 5px;
+}
+
 .linkspacers {
 	display: none;
 }
@@ -84,8 +205,8 @@ nav ul li:last-child a {
 	left: 17px;
 	margin: 2px;
 	color: #000000;
-    width: 27px;
-    height: 22px;
+	width: 27px;
+	height: 22px;
 	border-radius: 50%;
 	text-align: center;
 	background: linear-gradient(to bottom, #ffffff 5%, #f0ebea 100%);
@@ -98,11 +219,9 @@ nav ul li:last-child a {
 	transition: all .3s;
 }
 
-
 nav ul li:last-child a:hover .fav-btn i {
 	color: #1fff;
 }
-
 
 nav a:before {
 	content: "";
@@ -199,21 +318,23 @@ nav ul li {
 		align-items: initial !important;
 	}
 
+
 	nav ul {
 		height: 0px;
 		transition: all .3s;
 	}
 
 	.liwrapper {
+		position: relative;
 		width: 100%;
 		flex-direction: column;
 		justify-content: space-evenly;
-		background: rgba(255, 255, 255, 0.9);
-		box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.09);
 		margin: 15px;
 		border-radius: 3px;
 		overflow: hidden;
 		transition: all .3s;
+		background: lavender;
+		box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.09);
 	}
 
 	.linkspacers {
@@ -221,7 +342,7 @@ nav ul li {
 	}
 
 	.showNav {
-		height: 400px;
+		height: 650px;
 		visibility: visible;
 		opacity: 1;
 		position: absolute;
@@ -231,7 +352,7 @@ nav ul li {
 	}
 
 	nav ul li {
-		position: relative;
+		position: initial;
 		border-bottom: initial;
 		text-align: center;
 		margin: initial;
@@ -253,6 +374,73 @@ nav ul li {
 
 	.banner-wrapper {
 		top: 20px;
+	}
+
+	.genre-wrapper {
+		position: initial;
+		font-size: 14px;
+		color: #000;
+		display: block;
+		text-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 1px 2px rgb(0 0 0 / 23%);
+	}
+
+	.genre-container::before {
+		display: none;
+	}
+
+	.genre-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: initial;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		background-color: lavender;
+		box-shadow: initial;
+		transition: all .4s;
+		z-index: 999;
+		transform: translateX(0px);
+	}
+
+	.genre-container1 {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		z-index: 999;
+		transform: translateX(-1000px);
+		background-color: lavender;
+		transition: all .4s;
+	}
+
+	.genre-content__movie {
+		padding-left: 0px;
+	}
+
+	.genre-content__movie,
+	.genre-content__tv {
+		width: 100%;
+		height: 100%;
+		margin-left: 0px;
+	}
+
+	.genre-content__movie li,
+	.genre-content__tv li {
+		width: 31%;
+		color: #011;
+		padding: 3px;
+		font-size: 15px;
+		float: left;
 	}
 }
 
@@ -284,11 +472,11 @@ nav ul li {
 		width: 100%;
 		flex-direction: column;
 		justify-content: space-evenly;
-		background: rgba(255, 255, 255, 0.9);
 		box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.09);
 		margin: 15px;
 		border-radius: 3px;
 		overflow: hidden;
+		background: whitesmoke;
 		transition: all .3s;
 	}
 
@@ -297,7 +485,7 @@ nav ul li {
 	}
 
 	.showNav {
-		height: 400px;
+		height: 730px;
 		visibility: visible;
 		opacity: 1;
 		position: absolute;
@@ -330,7 +518,63 @@ nav ul li {
 	.banner-wrapper {
 		top: 21px;
 	}
+
+	.genre-wrapper {
+		color: #000;
+	}
+
+	.genre-wrapper h3 {
+		padding: 0px 0px 10px;
+	}
+
+	.genre-container {
+		position: relative;
+		width: 100%;
+		height: 375px;
+		top: initial;
+		padding: 20px;
+		border-radius: 5px;
+		overflow: hidden;
+		box-shadow: none;
+		border-radius: 0px;
+		background-color: transparent;
+		transform: none;
+		opacity: 1;
+		transform: translateX(0px);
+	}
+
+	.genre-container1 {
+		position: relative;
+		width: 0;
+		height: 0;
+		top: initial;
+		padding: 0px;
+		border-radius: 5px;
+		overflow: hidden;
+		box-shadow: none;
+		border-radius: 0px;
+		background-color: transparent;
+		opacity: 0;
+		transform: translateX(10000px);
+	}
+
+	.genre-container::before {
+		left: 47%;
+	}
+
+	.genre-content__movie {
+		width: 100%;
+		position: relative;
+		padding-left: initial;
+	}
+
+	.genre-content__tv {
+		width: 100%;
+		position: relative;
+		margin-left: initial;
+	}
 }
+
 
 
 @media (min-width: 1024px) and (max-width: 1280px) {
@@ -343,8 +587,24 @@ nav ul li {
 		justify-content: space-evenly;
 	}
 
+
 	nav a {
 		font-size: 14px;
 		padding: 5px 7px;
+	}
+}
+
+@media screen and (min-width: 1280px) and (max-height: 720px) {
+	.logo-burger {
+		position: absolute;
+		left: 0;
+	}
+
+	.logo {
+		font-size: 13px;
+	}
+
+	.liwrapper {
+		margin-left: 74px;
 	}
 }

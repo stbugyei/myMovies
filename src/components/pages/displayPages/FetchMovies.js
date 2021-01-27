@@ -16,8 +16,12 @@ import ShowTv from "./ShowTV";
 import TvSeasons from "./TvSeasons";
 import Spinner from "../../Spinner";
 import ShowPerson from "./ShowPerson";
-import './../../../styles/form.css'
 import WelcomePage from "./WelcomePage";
+import ShowMovieGenre from "../ShowMovieGenre";
+import ShowTvGenre from "../ShowTvGenre";
+import GenreData from '../../GenreData'
+import './../../../styles/form.css'
+
 
 
 const genreList = "https://api.themoviedb.org/3/genre/movie/list?&api_key=04c35731a5ee918f014970082a0088b1"
@@ -27,7 +31,7 @@ const popularMovieUrl = "https://api.themoviedb.org/3/movie/popular?&api_key=04c
 const popularTvUrl = "https://api.themoviedb.org/3/tv/popular?&api_key=04c35731a5ee918f014970082a0088b1";
 const url = "https://api.themoviedb.org/3/search/multi";
 let api_key = "04c35731a5ee918f014970082a0088b1";
-//let api_key = "5dcf7f28a88be0edc01bbbde06f024ab";
+
 
 function FetchMovies(props) {
 
@@ -44,6 +48,14 @@ function FetchMovies(props) {
     let [pageNumbers] = useState(1);
     let [totalMovies, setTotalMovies] = useState('');
     const [showform, setShowform] = useState(false)
+    let [text, setText] = useState('');
+
+    //=========== function to change selected options =======================
+    const inputText = (input) => {
+        setText(input);
+    }
+
+    const { genresforMovies, genresforTv } = GenreData();
 
     const displayForm = () => {
         setShowform(!showform)
@@ -170,7 +182,7 @@ function FetchMovies(props) {
     return (
 
         <div>
-            <Banner />
+            <Banner genresforMovies={genresforMovies} genresforTv={genresforTv} />
             <input type="checkbox" id="moveform" />
             <label htmlFor="moveform">
                 <span className="showform" onClick={displayForm} >
@@ -226,6 +238,14 @@ function FetchMovies(props) {
 
                         <Route path="/movie/:id">
                             <ShowMovies movies={movies} query={query} genres={genres} />
+                        </Route>
+
+                        <Route path="/movie-genre/:id">
+                            <ShowMovieGenre genres={genres} genresforMovies={genresforMovies} />
+                        </Route>
+
+                        <Route path="/tv-seriesgenre/:id">
+                            <ShowTvGenre genres={genres} genresforTv={genresforTv} />
                         </Route>
 
                         <Route exact path="/home">

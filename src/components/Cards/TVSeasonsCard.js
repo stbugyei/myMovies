@@ -93,7 +93,7 @@ const TVSeasonsCard = (props) => {
 
                             <div><span>Episode:</span>{detailedEpisode.episode_number ? <span> {detailedEpisode.episode_number}</span> : <span>Not Available</span>}</div>
 
-                            <div><span>Genre:</span> {genres ? <span>{(genres).join(', ')}</span> : <span>Not Available</span>}</div>
+                            <div><span>Genre:</span> {genres ? <span>{genres}</span> : <span>Not Available</span>}</div>
 
                             <div><span>Cast :</span> {crew.length !== 0 ?  <span>{crew}</span> : <span>Not Available</span>}</div>
 

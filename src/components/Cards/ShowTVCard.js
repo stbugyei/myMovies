@@ -5,13 +5,14 @@ import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import '../../styles/showmovies.css';
 import RecommendedCard from './RecommendedCard';
 import CharacterProfileCard from "./CharacterProfileCard";
+import SimilarCard from "./SimilarCard";
 const PosterUrl = "https://image.tmdb.org/t/p/original";
 
 
 const ShowTVCard = (props) => {
 
 
-    const { favoriteTvList, addFavorite, movie, recommended, cast, keys, keySecond, runtime, genres, approvedAge, tagline, country, languages, director, getSeasonAndEpisode, episodeInfo, clicked, activeColor } = props
+    const { favoriteTvList, addFavorite, movie, recommended, cast, keys, keySecond, runtime, genres, genreDisplay, approvedAge, tagline, country, languages, director, getSeasonAndEpisode, episodeInfo, clicked, activeColor, similar } = props
 
     //============== vote formmtting functions =========
     const averageRate = (rating) => {
@@ -95,7 +96,7 @@ const ShowTVCard = (props) => {
 
                             <div><span>Country :</span> {country ? <span >{country}</span> : <span>Not Available</span>}</div>
 
-                            <div><span>Genre :</span>{genres ? <span>{genres}</span> : <span>Not Available</span>}</div>
+                            <div><span>Genre :</span>{genreDisplay ? <span>{genreDisplay}</span> : <span>Not Available</span>}</div>
 
                             <div><span>Languages :</span> {languages ? <span>{languages}</span> : <span>Not Available</span>}</div>
 
@@ -152,6 +153,8 @@ const ShowTVCard = (props) => {
                 </div>
             </section>
 
+            {similar.length !== 0 ? <SimilarCard movieInfo={similar} genres={genres} /> : ''}
+            
             {recommended.length !== 0 ? <RecommendedCard movieInfo={recommended} genres={genres} /> : ''}
         </>
     )

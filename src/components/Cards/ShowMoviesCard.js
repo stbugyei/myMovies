@@ -4,13 +4,14 @@ import { useHistory } from "react-router-dom";
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import '../../styles/showmovies.css';
 import RecommendedCard from './RecommendedCard';
+import SimilarCard from "./SimilarCard";
 import CharacterProfileCard from "./CharacterProfileCard";
 const PosterUrl = "https://image.tmdb.org/t/p/original";
 
 
 const ShowMoviesCard = (props) => {
 
-    const {favoriteList, addFavorite, movie, recommended, keys, keySecond, runtime, showGenres, approvedAge, tagline, country, languages, director, cast } = props
+    const {favoriteList, addFavorite, movie, recommended, similar, keys, keySecond, runtime, showGenres,  genreDisplay, approvedAge, tagline, country, languages, director, cast } = props
 
 
     //============== vote formmtting functions =========
@@ -94,7 +95,7 @@ const ShowMoviesCard = (props) => {
 
                             <div><span>Country :</span> {country ? <span >{country}</span> : <span>Not Available</span>}</div>
 
-                            <div><span>Genre :</span>{showGenres ? <span>{showGenres}</span> : <span>Not Available</span>}</div>
+                            <div><span>Genre :</span>{genreDisplay ? <span>{genreDisplay}</span> : <span>Not Available</span>}</div>
 
                             <div><span>Languages :</span> {languages ? <span>{languages}</span> : <span>Not Available</span>}</div>
 
@@ -120,6 +121,8 @@ const ShowMoviesCard = (props) => {
                     <CharacterProfileCard movie={movie} />
                 </div>
             </section>
+
+            {similar.length !== 0 ? <SimilarCard movieInfo={similar} genres={showGenres} /> : ''}
 
             {recommended.length !== 0 ? <RecommendedCard movieInfo={recommended} genres={showGenres} /> : ''}
         </>

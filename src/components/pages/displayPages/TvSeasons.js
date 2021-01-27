@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import useLocalStorage from "../../useLocalStorage"
 import placeholder from './../../../images/placeholder.jpeg'
 import '../../../styles/showmovies.css'
@@ -26,8 +26,14 @@ const TvSeasons = (props) => {
 
     const fetchFromLocalStorageGenres = () => {
         if (selectedMovie) {
-            let genres = selectedMovie.genres.map(gen => (gen.name));
-            return genres
+            // let genres = selectedMovie.genres.map(gen => (gen.name));
+            // return genres
+            const genreDisplay = selectedMovie.genres.map((name, i) => {
+                return <Link key={name.id} to={{
+                    pathname: `/movie-genre/${name.id}`,
+                }}>  <>{name.name}{selectedMovie.genres.length - 1 === i ? '' : ','}</></Link>
+            })
+            return genreDisplay
         }
     }
 

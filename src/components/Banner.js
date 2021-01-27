@@ -2,11 +2,14 @@ import React from 'react'
 import '../styles/banner.css'
 import Nav from './Nav'
 
-const Banner = () => {
+const Banner = (props) => {
+
+    const { genresforMovies, genresforTv } = props
+
     return (
 
         <div className='banner-wrapper'>
-            <Nav />
+            <Nav genresforMovies={genresforMovies} genresforTv={genresforTv} />
         </div>
     )
 }

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { withRouter, NavLink, useHistory } from "react-router-dom";
+import { withRouter, NavLink, useHistory, Link } from "react-router-dom";
 import '../styles/nav.css'
 
-const Nav = () => {
+
+const Nav = (props) => {
+
+    const { genresforMovies, genresforTv } = props
 
     const [isopen, setIsopen] = useState(false)
+    const [isExpanded, setIsExpanded] = useState(false)
     const [favMovieList, setFavMovieList] = useState([]);
     const [favTvList, setFavTvList] = useState([]);
     const [favTvEpisodeList, setfavoriteTvEpisodeList] = useState([]);
@@ -60,13 +64,11 @@ const Nav = () => {
     }, [])
 
 
-
     //======= Navigation functions ========
     const history = useHistory();
     const handleClickWelcome = () => {
         history.push("/");
     }
-
 
     const handleClick = () => {
         setIsopen(!isopen)
@@ -75,6 +77,26 @@ const Nav = () => {
     const closeNavBar = () => {
         setIsopen(false)
     }
+
+    const activateSubMenu = () => {
+        setIsExpanded(!isExpanded)
+    }
+
+    const closeSubMenu = () => {
+        setIsExpanded(false)
+    }
+
+
+    const movieGenreDisplay = genresforMovies.map((name) => {
+        return (
+            <li key={name.id} onClick={() => { closeNavBar(); closeSubMenu(); }}><Link to={{ pathname: `/movie-genre/${name.id}` }}>{name.name}</Link></li>
+        )
+    })
+
+    const tvGenreDisplay = genresforTv.map((name) => {
+        return (<li key={name.id} onClick={() => { closeNavBar(); closeSubMenu(); }}><Link to={{ pathname: `/tv-seriesgenre/${name.id}` }}>{name.name}</Link></li>
+        )
+    })
 
 
     return (
@@ -96,6 +118,23 @@ const Nav = () => {
                     <div className="liwrapper">
                         <li>
                             <NavLink exact activeClassName="activenav" to="/home" onClick={closeNavBar}> Home </NavLink>
+                        </li>
+                        <li className="genre-wrapper"
+                            onMouseEnter={() => setIsExpanded(true)}
+                            onMouseLeave={() => setIsExpanded(false)}
+                            onClick={activateSubMenu}>
+                            <span>Genre</span>
+                            <div className={isExpanded ? 'genre-container' : 'genre-container1'}>
+                                <ul className="genre-content__movie">
+                                    <h3>Movies Genre</h3>
+                                    {movieGenreDisplay}
+                                </ul>
+
+                                <ul className="genre-content__tv">
+                                    <h3>Tv Series Genre</h3>
+                                    {tvGenreDisplay}
+                                </ul>
+                            </div>
                         </li>
 
                         <li>
@@ -122,7 +161,7 @@ const Nav = () => {
                     </div>
                 </ul>
             </nav>
-        </div>
+        </div >
     )
 }
 

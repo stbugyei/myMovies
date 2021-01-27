@@ -20,11 +20,14 @@ const ShowMovies = (props) => {
 
     const [movie, setMovie] = useState([]);
     const [recommended, setRecommended] = useState([]);
+    const [similar, setSimilar] = useState([]);
     const [detailedSeasonEpisode, setDetailedSeasonEpisode] = useState('')
     const [approvedAge, setApprovedAge] = useState([]);
     const [genres, setGenres] = useState('');
+    const [linkGenres, setLinkGenres] = useState('');
     const [languages, setLanguages] = useState('');
     const [cast, setCast] = useState('');
+    const [director, setDirector] = useState('');
     const [tagline, setTagline] = useState('');
     const [runtime, setRuntime] = useState('');
     const [country, setCountry] = useState('');
@@ -73,6 +76,7 @@ const ShowMovies = (props) => {
 
     const [baseUrl] = useState(`${urls}${id}?api_key=${api_key}${append}`);
     const [certificationUrl] = useState(`${urls}${id}/${content_ratings}?api_key=${api_key}`);
+    const [recommendedUrl] = useState(`${urls}${id}/recommendations?api_key=${api_key}`);
     const [similarUrl] = useState(`${urls}${id}/similar?api_key=${api_key}`);
 
     useEffect(() => {
@@ -80,13 +84,17 @@ const ShowMovies = (props) => {
         const getMovies = async () => {
 
             const details = await fetch(baseUrl);
+            const recommendedRes = await fetch(recommendedUrl);
             const similar = await fetch(similarUrl);
             const detailedData = await details.json();
             const certification = await fetch(certificationUrl);
             const certifieddAge = await certification.json();
 
+            const recommendedResData = await recommendedRes.json();
             const similarData = await similar.json();
-            setRecommended(similarData.results)
+
+            setRecommended(recommendedResData.results)
+            setSimilar(similarData.results)
 
             setMovie(detailedData);
             setTagline(detailedData.tagline)
@@ -102,6 +110,7 @@ const ShowMovies = (props) => {
 
                     setApprovedAge(ageRating[0])
                     setGenres(genres.join(', '))
+                    setLinkGenres(detailedData.genres)
                     setLanguages(detailedData.languages.join(', '))
                     setCast(detailedData)
                     setCountry((detailedData.origin_country.slice(0, 5).join(', ')))
@@ -117,7 +126,7 @@ const ShowMovies = (props) => {
         getMovies();
         getSeasonAndEpisode();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [baseUrl, certificationUrl, similarUrl]);
+    }, [baseUrl, certificationUrl, similarUrl, recommendedUrl]);
 
 
     let keys = video[0];
@@ -136,10 +145,17 @@ const ShowMovies = (props) => {
     })
 
     const creator = cast.created_by.slice(0, 6).map((director, i) => {
-       
         return <Link key={director.credit_id} to={{
             pathname: `/person/${director.id}`,
         }}> <>{director.name}{cast.created_by.slice(0, 6).length - 1 === i ? '' : ','}</></Link>
+    })
+
+
+    if (!linkGenres) { return '' }
+    const genreDisplay = linkGenres.map((name, i) => {
+        return <Link key={name.id} to={{
+            pathname: `/tv-seriesgenre/${name.id}`,
+        }}>  <>{name.name}{linkGenres.length - 1 === i ? '' : ','}</></Link>
     })
 
 
@@ -174,11 +190,13 @@ const ShowMovies = (props) => {
                     <ShowTVCard
                         movie={movie}
                         recommended={recommended}
+                        similar={similar}
                         id={id}
                         keys={keys}
                         keySecond={keySecond}
                         runtime={runtime}
                         genres={genres}
+                        genreDisplay={genreDisplay}
                         approvedAge={approvedAge}
                         tagline={tagline}
                         country={country}

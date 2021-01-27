@@ -20,8 +20,10 @@ const ShowMovies = (props) => {
 
     const [movie, setMovie] = useState([]);
     const [recommended, setRecommended] = useState([]);
+    const [similar, setSimilar] = useState([]);
     const [approvedAge, setApprovedAge] = useState([]);
     const [genres, setGenres] = useState('');
+    const [linkGenres, setLinkGenres] = useState('');
     const [languages, setLanguages] = useState('');
     const [cast, setCast] = useState('');
     const [tagline, setTagline] = useState('');
@@ -45,17 +47,22 @@ const ShowMovies = (props) => {
 
     const [url] = useState("https://get.geojs.io/v1/ip/geo.json")
     const [baseUrl] = useState(`${urls}${id}?api_key=${api_key}${append}`);
+    const [recommendedUrl] = useState(`${urls}${id}/recommendations?api_key=${api_key}`);
     const [similarUrl] = useState(`${urls}${id}/similar?api_key=${api_key}`);
+
 
     useEffect(() => {
 
         const getMovies = async () => {
 
             const details = await fetch(baseUrl);
+            const recommendedRes = await fetch(recommendedUrl);
             const similar = await fetch(similarUrl);
             const detailedData = await details.json();
+            const recommendedResData = await recommendedRes.json();
             const similarData = await similar.json();
-            setRecommended(similarData.results)
+            setRecommended(recommendedResData.results)
+            setSimilar(similarData.results)
 
             const certification = await fetch(`${urls}${id}/${release_dates}?api_key=${api_key}`);
             const certifieddAge = await certification.json();
@@ -76,6 +83,7 @@ const ShowMovies = (props) => {
 
                     setApprovedAge(ageRating[0])
                     setGenres(genres.join(', '))
+                    setLinkGenres(detailedData.genres)
                     setLanguages(languages.join(', '))
                     setCast(detailedData)
                     setCountry((country.slice(0, 5).join(', ')))
@@ -99,7 +107,7 @@ const ShowMovies = (props) => {
             .catch((error) => console.log(error))
 
         //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [baseUrl, similarUrl, url]);
+    }, [baseUrl, setRecommended, similarUrl, url]);
 
     let keys = video[0];
     let keySecond = video[1];
@@ -123,7 +131,12 @@ const ShowMovies = (props) => {
         }}> <>{director.name}{cast.credits.crew.slice(0, 6).length - 1 === i ? '' : ','}</></Link>
     })
 
-   
+    if (!linkGenres) { return '' }
+    const genreDisplay = linkGenres.map((name, i) => {
+        return <Link key={name.id} to={{
+            pathname: `/movie-genre/${name.id}`,
+        }}>  <>{name.name}{linkGenres.length - 1 === i ? '' : ','}</></Link>
+    })
 
     return (
 
@@ -134,12 +147,14 @@ const ShowMovies = (props) => {
                     <ShowMoviesCard
                         movie={movie}
                         recommended={recommended}
+                        similar={similar}
                         geolocation={geolocation}
                         streamId={id}
                         keys={keys}
                         keySecond={keySecond}
                         runtime={runtime}
                         showGenres={genres}
+                        genreDisplay={genreDisplay}
                         approvedAge={approvedAge}
                         tagline={tagline}
                         country={country}
