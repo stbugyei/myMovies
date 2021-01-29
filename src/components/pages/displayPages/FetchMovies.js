@@ -48,12 +48,6 @@ function FetchMovies(props) {
     let [pageNumbers] = useState(1);
     let [totalMovies, setTotalMovies] = useState('');
     const [showform, setShowform] = useState(false)
-    let [text, setText] = useState('');
-
-    //=========== function to change selected options =======================
-    const inputText = (input) => {
-        setText(input);
-    }
 
     const { genresforMovies, genresforTv } = GenreData();
 
