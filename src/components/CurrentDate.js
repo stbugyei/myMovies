@@ -34,7 +34,7 @@ const CurrentDate = () => {
     return (
         <div className="date-wrapper">
             <li className="curtime"> <span>{curTime}</span><span className="meridiem">{meridiem}</span></li>
-            { geolocation ? <li className="formatedDate">{geolocation.city}, {geolocation.country}</li> : ''}
+            { geolocation ? <li className="formatedDate1">{geolocation.city}, {geolocation.country}</li> : ''}
             <li className="formatedDate">{formatedDate}</li>
         </div>
     )
