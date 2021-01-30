@@ -119,11 +119,11 @@ const Nav = (props) => {
                         <li>
                             <NavLink exact activeClassName="activenav" to="/home" onClick={closeNavBar}> Home </NavLink>
                         </li>
+
                         <li className="genre-wrapper"
                             onMouseEnter={() => setIsExpanded(true)}
-                            onMouseLeave={() => setIsExpanded(false)}
-                            onClick={activateSubMenu}>
-                            <span>Genre</span>
+                            onMouseLeave={() => setIsExpanded(false)}>
+                            <NavLink to="#">Genre</NavLink>
                             <div className={isExpanded ? 'genre-container' : 'genre-container1'}>
                                 <ul className="genre-content__movie">
                                     <h3>Movies Genre</h3>

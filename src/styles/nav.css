@@ -22,28 +22,13 @@ nav ul {
 
 .genre-wrapper {
 	position: relative;
-	font-size: 14px;
-	cursor: pointer;
-	display: block;
-	text-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 1px 2px rgb(0 0 0 / 23%);
-	transition: all .4s;
 }
 
-.genre-wrapper a {
-	display: block;
-}
-
-.genre-wrapper span {
-	cursor: pointer;
-}
-
-.genre-wrapper:hover {
-	color: cyan;
-}
 
 .genre-container {
 	position: absolute;
 	width: 785px;
+	height: 373px;
 	top: 35px;
 	padding: 15px 0px;
 	border-radius: 5px;
@@ -51,15 +36,16 @@ nav ul {
 	display: flex;
 	justify-content: space-between;
 	background-color: lavender;
-	box-shadow: 10px 10px 14px 1px rgba(00, 00, 00, 0.2);
-	transform-origin: top left;
+	transform-origin: 0% 0%;
 	transform: scale(1);
-	transition: all .4s;
+	box-shadow: 10px 10px 14px 1px rgba(00, 00, 00, 0.2);
+	transition: all .4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .genre-container1 {
 	position: absolute;
 	width: 785px;
+	height: 373px;
 	top: 35px;
 	padding: 15px 0px;
 	border-radius: 5px;
@@ -67,10 +53,10 @@ nav ul {
 	display: flex;
 	justify-content: space-between;
 	background-color: lavender;
-	box-shadow: 10px 10px 14px 1px rgba(00, 00, 00, 0.2);
-	transform-origin: top left;
 	transform: scale(0);
-	transition: all .4s;
+	transform-origin: 0% 0%;
+	box-shadow: 10px 10px 14px 1px rgba(00, 00, 00, 0.2);
+	transition: all .4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .genre-container::before {
@@ -227,15 +213,15 @@ nav a:before {
 	content: "";
 	position: absolute;
 	top: 110%;
-	height: 2px;
+	height: 1px;
 	width: 0%;
-	left: 10%;
+	left: 9px;
 	background: cyan;
 	transition: all .5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 nav a:hover:before {
-	width: 81%;
+	width: calc(100% - 18px);
 	background: #d02718;
 	transition: all .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -519,10 +505,6 @@ nav ul li {
 		top: 21px;
 	}
 
-	.genre-wrapper {
-		color: #000;
-	}
-
 	.genre-wrapper h3 {
 		padding: 0px 0px 10px;
 	}
@@ -538,7 +520,6 @@ nav ul li {
 		box-shadow: none;
 		border-radius: 0px;
 		background-color: transparent;
-		transform: none;
 		opacity: 1;
 		transform: translateX(0px);
 	}

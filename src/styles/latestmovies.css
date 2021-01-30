@@ -573,7 +573,11 @@
 
 	.caption-div span h2 {
 		margin-top: 0px;
-		font-size: 20px;
+		font-size: 16px;
+	}
+
+	.caption-div h2::before {
+		top: 24px;
 	}
 
 	.pagination {
