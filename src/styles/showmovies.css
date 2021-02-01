@@ -65,6 +65,11 @@
 	background-color: rgb(31, 99, 99);
 }
 
+/* .play-video__container {
+	width: 100%;
+	height: 58em;
+	padding: 15px;
+} */
 
 .play-video__container {
 	position: relative;
@@ -279,9 +284,9 @@
 	line-height: 1.7rem;
 }
 
-.movieinfo-details__stats Span a:hover{
+.movieinfo-details__stats Span a:hover {
 	color: blueviolet;
-	transition:  all .3s;
+	transition: all .3s;
 }
 
 .movieinfo-seasonepisode {
@@ -773,7 +778,6 @@ a {
 	}
 }
 
-
 @media (min-width: 320px) and (max-width: 480px) {
 	.banner-linkref {
 		font-size: 13px;
@@ -805,12 +809,24 @@ a {
 		height: 225px;
 	}
 
+	/* .play-video__container,
+	.youtube-frame {
+		height: 18em;
+		padding: 0;
+	} */
+
 	.movieinfo-image {
 		display: none;
 	}
 
 	.personinfo-image {
-		display: none;
+		width: 100%;
+		min-height: 390px;
+		max-height: 1000px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center center;
+		filter: opacity(0.5);
 	}
 
 	.movieinfo-details__item,
@@ -832,6 +848,7 @@ a {
 
 	.movieinfo-details::before,
 	.personinfo-details::before {
+		/* content: ""; */
 		position: initial;
 		background-image: initial;
 		top: initial;
@@ -885,7 +902,8 @@ a {
 		display: none;
 	}
 
-	.seasons-content::before,.seasons-content__active::before {
+	.seasons-content::before,
+	.seasons-content__active::before {
 		height: 37px;
 		top: -1px;
 		left: -1px;
@@ -1043,8 +1061,8 @@ a {
 		justify-content: space-evenly;
 	}
 
-
-	.seasons-content::before,.seasons-content__active::before {
+	.seasons-content::before,
+	.seasons-content__active::before {
 		height: 37px;
 		top: -1px;
 		left: -1px;
@@ -1054,7 +1072,6 @@ a {
 	.seasons-content__active::before {
 		height: 42px;
 	}
-
 
 	.episodes {
 		padding-left: initial;
@@ -1151,7 +1168,8 @@ a {
 		font-size: 14px;
 	}
 
-	.seasons-content, .episodes-content__annex {
+	.seasons-content,
+	.episodes-content__annex {
 		font-size: 14px;
 		padding: 10px;
 	}

@@ -4,75 +4,77 @@ import PrefetchCard from "../Cards/PrefetchCard";
 import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
+import Pagination from "../Pagination";
 
 const genreMovieUrl = "https://api.themoviedb.org/3/discover/movie?api_key=5dcf7f28a88be0edc01bbbde06f024ab&language=en-US&sort_by=popularity.desc"
 
 const ShowMovieGenre = (props) => {
 
     const { id } = useParams();
-    let { genres, genresforMovies } = props
-    //console.log(props.match.params.id)
+    const { genres, genresforMovies } = props
 
     const [movies, setMovies] = useState([]);
     const [error, setError] = useState(false);
-    let [pageNumber, setPageNumber] = useState(1);
-    let [totalPopularMovie, setTotalPopularMovie] = useState('');
+    const [pageNumber] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPopularMovie, setTotalPopularMovie] = useState("");
 
 
-    const getMovies = async () => {
+    //======================= Pagination for Genre ================
+    const pageCount = Math.ceil(totalPopularMovie / 20)
 
-        const movieGenreFeed = await fetch(`${genreMovieUrl}&page=${pageNumber}&with_genres=${id}`);
-
-        if ((movieGenreFeed.status) === 200) {
-
-            try {
-                //=========Storing all fetched data to the state =========
-                const genreMovieUrl = await movieGenreFeed.json();
-
-                setMovies(genreMovieUrl.results)
-                setError(null);
-                setTotalPopularMovie(genreMovieUrl.total_pages)
-
-            } catch (error) {
-                setError(<span><h4 style={{ color: 'red' }}>{(movieGenreFeed.statusText)}</h4></span>);
-            }
-        } else {
-            setMovies([]);
-            setError(<div style={errormsg}> The resource is not available {error}</div>)
-        }
-    };
-
-    //======================= Pagination function ==================
-
-    const nextPageDefault = () => {
-        if (movies && pageNumber < totalPopularMovie) {
-            setPageNumber(pageNumber += 1)
-            getMovies()
+    const paginationSearch = (pageNumbered, e) => {
+        e.preventDefault();
+        try {
+            fetch(`${genreMovieUrl}&page=${pageNumbered}&with_genres=${id}`)
+                .then(res => res.json())
+                .then(searchedmovie => {
+                    setMovies(searchedmovie.results);
+                    setCurrentPage(pageNumbered);
+                    setError(null);
+                });
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth',
             });
+
+        } catch (error) {
+            console.log(error)
+
         }
     }
 
-    const PreviousPageDefault = () => {
-        if (movies && pageNumber !== 1) {
-            setPageNumber(pageNumber -= 1)
-            getMovies()
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
-    }
 
     useEffect(() => {
+
+        const getMovies = async () => {
+
+            const movieGenreFeed = await fetch(`${genreMovieUrl}&page=${pageNumber}&with_genres=${id}`);
+
+            if ((movieGenreFeed.status) === 200) {
+
+                try {
+                    //=========Storing all fetched data to the state =========
+                    const genreMovieUrl = await movieGenreFeed.json();
+
+                    setMovies(genreMovieUrl.results)
+                    setTotalPopularMovie(genreMovieUrl.total_pages)
+                    setError(null);
+
+                } catch (error) {
+                    setError(<span><h4 style={{ color: 'red' }}>{(movieGenreFeed.statusText)}</h4></span>);
+                }
+            } else {
+                setMovies([]);
+                setError(<div style={errormsg}> The resource is not available {error}</div>)
+            }
+        };
         getMovies();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [error, id, pageNumber]);
+
 
     if (!genresforMovies) { return '' }
-    const generatedGenre =  genresforMovies.reduce((element, list) => {
+    const generatedGenre = genresforMovies.reduce((element, list) => {
         const { id, name } = list
         element[id] = name
         element[28] = "Action"
@@ -80,13 +82,13 @@ const ShowMovieGenre = (props) => {
     });
 
 
-    const movieCard = movies.map((details, index) => {
+    const movieCard = movies.map((details) => {
 
         return (
 
-            <div className="film-list__container" key={movies[index].id}>
+            <div className="film-list__container" key={details.id}>
                 <Link to={{
-                    pathname: `/movie/${movies[index].id}`,
+                    pathname: `/movie/${details.id}`,
                     state: { movies }
                 }}>
                     {movies ?
@@ -113,25 +115,18 @@ const ShowMovieGenre = (props) => {
             <div className="container">
                 {(!(movies && Object.keys(movies).length)) ? <Spinner /> :
                     <div className="film-listpage__wrapper">
-                        <div className='caption-div'>
+
+                        <div className='search-caption'>
                             <span> <h2>{generatedGenre[id]} Movies</h2></span>
-                            <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
-                                <button className='pagination-btn__info'> {pageNumber} of {totalPopularMovie}</button>
-                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
-                            </div>
+                            <Pagination paginationSearch={paginationSearch} pageCount={pageCount} currentPage={currentPage} />
                         </div>
 
                         <div className='film-list__cardwrapper'>
                             {movieCard}
                         </div>
 
-                        <div className="bottom-pagination">
-                            <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
-                                <button className='pagination-btn__info'> {pageNumber} of {totalPopularMovie}</button>
-                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
-                            </div>
+                        <div className='search-caption'>
+                            <Pagination paginationSearch={paginationSearch} pageCount={pageCount} currentPage={currentPage} />
                         </div>
                     </div>
                 }

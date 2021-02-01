@@ -23,7 +23,6 @@ import GenreData from '../../GenreData'
 import './../../../styles/form.css'
 
 
-
 const genreList = "https://api.themoviedb.org/3/genre/movie/list?&api_key=04c35731a5ee918f014970082a0088b1"
 const latestMovieUrl = "https://api.themoviedb.org/3/movie/upcoming?&api_key=04c35731a5ee918f014970082a0088b1";
 const latestTvEpisodeUrl = "https://api.themoviedb.org/3/tv/airing_today?&api_key=04c35731a5ee918f014970082a0088b1";
@@ -234,11 +233,11 @@ function FetchMovies(props) {
                             <ShowMovies movies={movies} query={query} genres={genres} />
                         </Route>
 
-                        <Route path="/movie-genre/:id">
+                        <Route path="/movie-genre/:id/:name">
                             <ShowMovieGenre genres={genres} genresforMovies={genresforMovies} />
                         </Route>
 
-                        <Route path="/tv-seriesgenre/:id">
+                        <Route path="/tv-seriesgenre/:id/:name">
                             <ShowTvGenre genres={genres} genresforTv={genresforTv} />
                         </Route>
 
@@ -251,8 +250,9 @@ function FetchMovies(props) {
                         </Route>
 
                     </Switch> </>
-                : <><span style={errormsg}>Resource Not Available</span> <span style={{ display: "none" }}>{error}</span> </>}
-        </div>
+                : <><span style={errormsg}>Resource Not Available</span> <span style={{ display: "none" }}>{error}</span> </>
+            }
+        </div >
     );
 }
 

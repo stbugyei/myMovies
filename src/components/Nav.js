@@ -78,23 +78,19 @@ const Nav = (props) => {
         setIsopen(false)
     }
 
-    const activateSubMenu = () => {
-        setIsExpanded(!isExpanded)
-    }
 
     const closeSubMenu = () => {
         setIsExpanded(false)
     }
 
-
     const movieGenreDisplay = genresforMovies.map((name) => {
         return (
-            <li key={name.id} onClick={() => { closeNavBar(); closeSubMenu(); }}><Link to={{ pathname: `/movie-genre/${name.id}` }}>{name.name}</Link></li>
+            <li key={name.id} onClick={() => { closeNavBar(); closeSubMenu(); }}><Link to={{ pathname: `/movie-genre/${name.id}/${name.name}` }}>{name.name}</Link></li>
         )
     })
 
     const tvGenreDisplay = genresforTv.map((name) => {
-        return (<li key={name.id} onClick={() => { closeNavBar(); closeSubMenu(); }}><Link to={{ pathname: `/tv-seriesgenre/${name.id}` }}>{name.name}</Link></li>
+        return (<li key={name.id} onClick={() => { closeNavBar(); closeSubMenu(); }}><Link to={{ pathname: `/tv-seriesgenre/${name.id}/${name.name}` }}>{name.name}</Link></li>
         )
     })
 
