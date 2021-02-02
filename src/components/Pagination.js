@@ -55,6 +55,13 @@ const Pagination = (props) => {
     }
   })
 
+const deactivateNextBtn = () => {
+    if (currentPage + 1 > pageCount) {
+      return {
+        display: 'none'
+      }
+    }
+  }
 
   return (
     <div className='pagination-search'>
@@ -65,7 +72,7 @@ const Pagination = (props) => {
 
         {links}
 
-        {currentPage > 1 ? <li style={{ display: 'flex', color: '#fff', padding: '10px' }} onClick={(e) => paginationSearch(currentPage + 1, e)}> <a to="#" ><button className='next'> <span className='next-text' >Next</span> </button>  </a></li> : ''}
+        {currentPage > 1 ? <li style={deactivateNextBtn()} onClick={(e) => paginationSearch(currentPage + 1, e)}> <a to="#" ><button className='next'> <span className='next-text' >Next</span> </button>  </a></li> : ''}
       </ul>
     </div>
   )
