@@ -4,73 +4,60 @@ import PrefetchCard from "../Cards/PrefetchCard";
 import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
-import Pagination from "../Pagination";
+
 
 const genreTvUrl = "https://api.themoviedb.org/3/discover/tv?api_key=5dcf7f28a88be0edc01bbbde06f024ab&language=en-US&sort_by=popularity.desc"
 
 const ShowTvGenre = (props) => {
 
     const { id } = useParams();
+
     const { genres, genresforTv } = props
 
     const [movies, setMovies] = useState([]);
-    const [error, setError] = useState(false);
-    const [pageNumber] = useState(1);
-    const [currentPage, setCurrentPage] = useState(1);
     const [totalPopularMovie, setTotalPopularMovie] = useState("");
+    const [display, setDisplay] = useState(false);
+    let [currentPage, setCurrentPage] = useState(1);
 
+    const scrolltoBottom = () => {
+        (window.innerHeight + window.scrollY) >= document.body.offsetHeight ? setDisplay(true) : setDisplay(false);
+    }
+
+    //========== A Style function to change the visibility of the scroll button ===========//
+    const scrollVisibility = () => {
+        return { transform: display ? 'scale(1)' : 'scale(0)' };
+    }
 
     useEffect(() => {
 
-        const getMovies = async () => {
+        const getMovies = async (pageNumbered) => {
 
-            const tvGenreFeed = await fetch(`${genreTvUrl}&page=${pageNumber}&with_genres=${id}`);
+            const tvGenreFeed = await fetch(`${genreTvUrl}&page=${pageNumbered}&with_genres=${id}`);
 
             if ((tvGenreFeed.status) === 200) {
 
                 try {
                     //=========Storing all fetched data to the state =========
                     const genreTvUrl = await tvGenreFeed.json();
-
-                    setMovies(genreTvUrl.results)
-                    setError(null);
+                    setMovies((prev) => [...prev, ...genreTvUrl.results]);
                     setTotalPopularMovie(genreTvUrl.total_pages)
 
                 } catch (error) {
-                    setError(<span><h4 style={{ color: 'red' }}>{(tvGenreFeed.statusText)}</h4></span>);
+                    console.log(error)
                 }
+
             } else {
                 setMovies([]);
-                setError(<div style={errormsg}> The resource is not available {error}</div>)
             }
         };
-        getMovies();
-    }, [error, id, pageNumber]);
 
+        getMovies(currentPage);
 
-    //======================= Pagination for Genre ================
-    const pageCount = Math.ceil(totalPopularMovie / 20)
+        window.addEventListener('scroll', scrolltoBottom);
+        return () => window.removeEventListener('scroll', scrolltoBottom);
 
-    const paginationSearch = (pageNumbered, e) => {
-        e.preventDefault();
-        try {
-            fetch(`${genreTvUrl}&page=${pageNumbered}&with_genres=${id}`)
-                .then(res => res.json())
-                .then(searchedmovie => {
-                    setMovies(searchedmovie.results);
-                    setCurrentPage(pageNumbered);
-                    setError(null);
-                });
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
+    }, [currentPage, id]);
 
-        } catch (error) {
-            console.log(error)
-
-        }
-    }
 
     if (!genresforTv) { return '' }
     const generatedGenre = genresforTv.reduce((element, list) => {
@@ -117,16 +104,14 @@ const ShowTvGenre = (props) => {
 
                         <div className='search-caption'>
                             <span> <h2>{generatedGenre[id]} TV-Series</h2></span>
-                            <Pagination paginationSearch={paginationSearch} pageCount={pageCount} currentPage={currentPage} />
                         </div>
 
-                        <div className='film-list__cardwrapper'>
+                        <div className='film-list__cardwrapper'  style={{ marginBottom: '4.6em' }}>
                             {movieCard}
+
+                            <button className={currentPage + 1 > totalPopularMovie ? "none": "loadmore-btn"} style={scrollVisibility()} onClick={() => setCurrentPage(currentPage + 1)}> <span> {currentPage} of {totalPopularMovie}</span><strong>Click to Load More</strong> </button>
                         </div>
 
-                        <div className='search-caption'>
-                            <Pagination paginationSearch={paginationSearch} pageCount={pageCount} currentPage={currentPage} />
-                        </div>
                     </div>
                 }
             </div>
@@ -135,11 +120,4 @@ const ShowTvGenre = (props) => {
 }
 
 export default withRouter(ShowTvGenre)
-
-const errormsg = {
-    color: 'red',
-    margin: '100px auto',
-    textAlign: 'center',
-};
-
 

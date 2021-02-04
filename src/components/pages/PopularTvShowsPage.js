@@ -14,66 +14,54 @@ const PopularTvShowPage = (props) => {
     const { genres } = props
 
     const [movies, setMovies] = useState([]);
-    const [error, setError] = useState(false);
+    const [display, setDisplay] = useState(false);
     let [pageNumber, setPageNumber] = useState(1);
     let [totalTopularTvShow, setTotalTopularTvShow] = useState('');
 
-    const getMovies = async () => {
 
-        const popularTvFeed = await fetch(`${popularTvUrl}&page=${pageNumber}`);
-
-        if ((popularTvFeed.status) === 200) {
-
-            try {
-                //=========Storing all fetched data to the state =========
-                const popularTvUrl = await popularTvFeed.json();
-
-                setMovies(popularTvUrl.results)
-                setError(null);
-                setTotalTopularTvShow(popularTvUrl.total_pages)
-
-            } catch (error) {
-                setError(<span><h4 style={{ color: 'red' }}>{(popularTvFeed.statusText)}</h4></span>);
-            }
-        } else {
-            setMovies([]);
-            setError(<div style={errormsg}> The resource is not available {error}</div>)
-        }
-    };
-
-    //======================= Pagination function ==================
-
-    const nextPageDefault = () => {
-        if (movies && pageNumber < totalTopularTvShow) {
-            setPageNumber(pageNumber += 1);
-            getMovies();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
+    const scrolltoBottom = () => {
+        (window.innerHeight + window.scrollY) >= document.body.offsetHeight ? setDisplay(true) : setDisplay(false);
     }
 
-    const PreviousPageDefault = () => {
-        if (movies && pageNumber !== 1) {
-            setPageNumber(pageNumber -= 1);
-            getMovies();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
+    //========== A Style function to change the visibility of the scroll button ===========//
+    const scrollVisibility = () => {
+        return { transform: display ? 'scale(1)' : 'scale(0)' };
     }
 
     useEffect(() => {
-        getMovies();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+
+        const getMovies = async (pageNumbered) => {
+
+            const popularTvFeed = await fetch(`${popularTvUrl}&page=${pageNumbered}`);
+
+            if ((popularTvFeed.status) === 200) {
+
+                try {
+                    //=========Storing all fetched data to the state =========
+                    const popularTvUrl = await popularTvFeed.json();
+
+                    setMovies((prev) => [...prev, ...popularTvUrl.results]);
+                    setTotalTopularTvShow(popularTvUrl.total_pages)
+                } catch (error) {
+                    console.log(error)
+                }
+
+            } else {
+                setMovies([]);
+            }
+        };
+
+        getMovies(pageNumber);
+
+        window.addEventListener('scroll', scrolltoBottom);
+        return () => window.removeEventListener('scroll', scrolltoBottom);
+
+    }, [pageNumber]);
 
 
     const movieCard = movies.map((details, index) => {
         return (
-            <div className="film-list__container" key={movies[index].id}>
+            <div className="film-list__container" key={details.id}>
                 <Link to={{
                     pathname: `/tv/${movies[index].id}`,
                     state: { movies }
@@ -109,23 +97,12 @@ const PopularTvShowPage = (props) => {
                     <div className="film-listpage__wrapper">
                         <div className='caption-div'>
                             <span><h2>Popular TV Shows</h2></span>
-                            <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
-                                <button className='pagination-btn__info'> {pageNumber} of {totalTopularTvShow}</button>
-                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
-                            </div>
                         </div>
 
-                        <div className='film-list__cardwrapper'>
+                        <div className='film-list__cardwrapper' style={{ marginBottom: '4.6em' }}>
                             {movieCard}
-                        </div>
 
-                        <div className="bottom-pagination">
-                            <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
-                                <button className='pagination-btn__info'> {pageNumber} of {totalTopularTvShow}</button>
-                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
-                            </div>
+                            <button className={pageNumber + 1 > totalTopularTvShow ? "none" : "loadmore-btn"} style={scrollVisibility()} onClick={() => setPageNumber(pageNumber + 1)}> <span> {pageNumber} of {totalTopularTvShow}</span><strong>Click to Load More</strong> </button>
                         </div>
                     </div>
                 }
@@ -137,8 +114,3 @@ const PopularTvShowPage = (props) => {
 
 export default withRouter(PopularTvShowPage)
 
-const errormsg = {
-    color: '#fff',
-    margin: '30px',
-    textAlign: 'center',
-};

@@ -3,74 +3,60 @@ import { withRouter, Link, useParams } from "react-router-dom";
 import PrefetchCard from "../Cards/PrefetchCard";
 import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
-import Spinner from "../Spinner";
-import Pagination from "../Pagination";
+import Spinner from '../Spinner';
+
 
 const genreMovieUrl = "https://api.themoviedb.org/3/discover/movie?api_key=5dcf7f28a88be0edc01bbbde06f024ab&language=en-US&sort_by=popularity.desc"
 
 const ShowMovieGenre = (props) => {
 
     const { id } = useParams();
+
     const { genres, genresforMovies } = props
 
     const [movies, setMovies] = useState([]);
-    const [error, setError] = useState(false);
-    const [pageNumber] = useState(1);
-    const [currentPage, setCurrentPage] = useState(1);
     const [totalPopularMovie, setTotalPopularMovie] = useState("");
+    const [display, setDisplay] = useState(false);
+    let [currentPage, setCurrentPage] = useState(1);
 
 
-    //======================= Pagination for Genre ================
-    const pageCount = Math.ceil(totalPopularMovie / 20)
+    const scrolltoBottom = () => {
+        (window.innerHeight + window.scrollY) >= document.body.offsetHeight ? setDisplay(true) : setDisplay(false);
+    }
 
-    const paginationSearch = (pageNumbered, e) => {
-        e.preventDefault();
-        try {
-            fetch(`${genreMovieUrl}&page=${pageNumbered}&with_genres=${id}`)
-                .then(res => res.json())
-                .then(searchedmovie => {
-                    setMovies(searchedmovie.results);
-                    setCurrentPage(pageNumbered);
-                    setError(null);
-                });
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-
-        } catch (error) {
-            console.log(error)
-
-        }
+    //========== A Style function to change the visibility of the scroll button ===========//
+    const scrollVisibility = () => {
+        return { transform: display ? 'scale(1)' : 'scale(0)' };
     }
 
 
     useEffect(() => {
 
-        const getMovies = async () => {
+        const getMovies = async (pageNumbered) => {
 
-            const movieGenreFeed = await fetch(`${genreMovieUrl}&page=${pageNumber}&with_genres=${id}`);
+            const movieGenreFeed = await fetch(`${genreMovieUrl}&page=${pageNumbered}&with_genres=${id}`);
 
             if ((movieGenreFeed.status) === 200) {
 
                 try {
-                    //=========Storing all fetched data to the state =========
+                    // =========Storing all fetched data to the state =========
                     const genreMovieUrl = await movieGenreFeed.json();
-
-                    setMovies(genreMovieUrl.results)
+                    setMovies((prev) => [...prev, ...genreMovieUrl.results]);
                     setTotalPopularMovie(genreMovieUrl.total_pages)
-                    setError(null);
-
                 } catch (error) {
-                    setError(<span><h4 style={{ color: 'red' }}>{(movieGenreFeed.statusText)}</h4></span>);
+                    console.log(error)
                 }
             } else {
                 setMovies([]);
-                setError(<div style={errormsg}> The resource is not available {error}</div>)
             }
         };
-        getMovies();
-    }, [error, id, pageNumber]);
+
+        getMovies(currentPage);
+
+        window.addEventListener('scroll', scrolltoBottom);
+        return () => window.removeEventListener('scroll', scrolltoBottom);
+
+    }, [currentPage, id]);
 
 
     if (!genresforMovies) { return '' }
@@ -82,11 +68,11 @@ const ShowMovieGenre = (props) => {
     });
 
 
-    const movieCard = movies.map((details) => {
+    const movieCard = movies.map((details, i) => {
 
         return (
 
-            <div className="film-list__container" key={details.id}>
+            <div className="film-list__container" key={i}>
                 <Link to={{
                     pathname: `/movie/${details.id}`,
                     state: { movies }
@@ -116,17 +102,14 @@ const ShowMovieGenre = (props) => {
                 {(!(movies && Object.keys(movies).length)) ? <Spinner /> :
                     <div className="film-listpage__wrapper">
 
-                        <div className='search-caption'>
+                        <div className='caption-div'>
                             <span> <h2>{generatedGenre[id]} Movies</h2></span>
-                            <Pagination paginationSearch={paginationSearch} pageCount={pageCount} currentPage={currentPage} />
                         </div>
 
-                        <div className='film-list__cardwrapper'>
+                        <div className='film-list__cardwrapper' style={{ marginBottom: '4.6em' }}>
                             {movieCard}
-                        </div>
 
-                        <div className='search-caption'>
-                            <Pagination paginationSearch={paginationSearch} pageCount={pageCount} currentPage={currentPage} />
+                            <button className={currentPage + 1 > totalPopularMovie ? "none": "loadmore-btn"} style={scrollVisibility()} onClick={() => setCurrentPage(currentPage + 1)}> <span> {currentPage} of {totalPopularMovie}</span><strong>Click to Load More</strong> </button>
                         </div>
                     </div>
                 }
@@ -136,11 +119,4 @@ const ShowMovieGenre = (props) => {
 }
 
 export default withRouter(ShowMovieGenre)
-
-const errormsg = {
-    color: 'red',
-    margin: '100px auto',
-    textAlign: 'center',
-};
-
 

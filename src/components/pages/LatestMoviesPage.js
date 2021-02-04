@@ -12,68 +12,50 @@ const LatestMoviesPage = (props) => {
     const { genres } = props
 
     const [movies, setMovies] = useState([]);
-    const [error, setError] = useState(false);
+    const [display, setDisplay] = useState(false);
     let [pageNumber, setPageNumber] = useState(1);
     let [totalLatestMovies, setTotalLatestMovies] = useState('');
-   
 
-    const getMovies = async () => {
-
-        const latestMovieFeed = await fetch(`${latestMovieUrl}&page=${pageNumber}`);
-
-        if ((latestMovieFeed.status) === 200) {
-
-            try {
-                //=========Storing all fetched data to the state =========
-                const latestmovieUrl = await latestMovieFeed.json();
-                setMovies(latestmovieUrl.results)
-                setError(null);
-                setTotalLatestMovies(latestmovieUrl.total_pages)
-
-            } catch (error) {
-                setError(<span><h4 style={{ color: 'red' }}>{(error)}</h4></span>);
-            }
-
-        } else {
-            setMovies([]);
-            setError(<div style={errormsg}> The resource is not available {error}</div>)
-        }
-    };
-
-    //======================= Pagination function ==================
-    const nextPageDefault = () => {
-        if (movies && pageNumber < totalLatestMovies) {
-            setPageNumber(pageNumber += 1)
-            getMovies()
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
+    const scrolltoBottom = () => {
+        (window.innerHeight + window.scrollY) >= document.body.offsetHeight ? setDisplay(true) : setDisplay(false);
     }
 
-    const PreviousPageDefault = () => {
-        if (movies && pageNumber !== 1) {
-            setPageNumber(pageNumber -= 1)
-            getMovies()
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
+    //========== A Style function to change the visibility of the scroll button ===========//
+    const scrollVisibility = () => {
+        return { transform: display ? 'scale(1)' : 'scale(0)' };
     }
 
-    //============== Text trancating functions =========
-    //const trancateText = (text) => { return (text.substr(0, 200)).trim().concat(' ...') }
 
     useEffect(() => {
-        getMovies();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+
+        const getMovies = async (pageNumbered) => {
+
+            const latestMovieFeed = await fetch(`${latestMovieUrl}&page=${pageNumbered}`);
+
+            if ((latestMovieFeed.status) === 200) {
+
+                try {
+                    //=========Storing all fetched data to the state =========
+                    const latestmovieUrl = await latestMovieFeed.json();
+
+                    setMovies((prev) => [...prev, ...latestmovieUrl.results]);
+                    setTotalLatestMovies(latestmovieUrl.total_pages)
+
+                } catch (error) {
+                    console.log(error)
+                }
+
+            } else {
+                setMovies([]);
+            }
+        };
+
+        getMovies(pageNumber);
+
+        window.addEventListener('scroll', scrolltoBottom);
+        return () => window.removeEventListener('scroll', scrolltoBottom);
+
+    }, [pageNumber]);
 
 
     const movieCard = movies.map((details, index) => {
@@ -82,7 +64,7 @@ const LatestMoviesPage = (props) => {
 
             <div className="film-list__container" key={details.id}>
                 <Link to={{
-                    pathname: `/movie/${movies[index].id}`,
+                    pathname: `/movie/${index}`,
                     state: { movies }
                 }}>
                     {movies ? <PrefetchCard
@@ -113,23 +95,12 @@ const LatestMoviesPage = (props) => {
                     <div className="film-listpage__wrapper">
                         <div className='caption-div'>
                             <span> <h2>Trending Movies</h2></span>
-                            <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
-                                <button className='pagination-btn__info'> {pageNumber} of {totalLatestMovies}</button>
-                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
-                            </div>
                         </div>
 
-                        <div className='film-list__cardwrapper'>
+                        <div className='film-list__cardwrapper' style={{ marginBottom: '4.6em' }}>
                             {movieCard}
-                        </div>
 
-                        <div className="bottom-pagination">
-                            <div className='pagination'>
-                                <button className='pagination-btn__prev' onClick={PreviousPageDefault}><i className="fas fa-arrow-left"></i></button>
-                                <button className='pagination-btn__info'> {pageNumber} of {totalLatestMovies}</button>
-                                <button className='pagination-btn__next' onClick={nextPageDefault}><i className="fas fa-arrow-right"></i></button>
-                            </div>
+                            <button className={pageNumber + 1 > totalLatestMovies ? "none": "loadmore-btn"} style={scrollVisibility()} onClick={() => setPageNumber(pageNumber + 1)}> <span> {pageNumber} of {totalLatestMovies}</span><strong>Click to Load More</strong> </button>
                         </div>
                     </div>
                 }
@@ -139,9 +110,3 @@ const LatestMoviesPage = (props) => {
 }
 
 export default withRouter(LatestMoviesPage)
-
-const errormsg = {
-    color: '#fff',
-    margin: '30px',
-    textAlign: 'center',
-};

@@ -27,7 +27,7 @@ const ShowMovies = (props) => {
     const [linkGenres, setLinkGenres] = useState('');
     const [languages, setLanguages] = useState('');
     const [cast, setCast] = useState('');
-    const [director, setDirector] = useState('');
+    //const [director, setDirector] = useState('');
     const [tagline, setTagline] = useState('');
     const [runtime, setRuntime] = useState('');
     const [country, setCountry] = useState('');

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
+import { Link } from "react-router-dom";
 import "./../styles/latestmovies.css"
-
 
 
 const Pagination = (props) => {
@@ -42,30 +42,33 @@ const Pagination = (props) => {
 
     if (!page.ellipsis) {
       return <li key={page.id}>
-        <a
-          href="/#"
-          className={page.current ? "activeness" : ""}
-          onClick={(e) => paginationSearch(page.id, e)}
-        >
-          {page.id}
-        </a>
+        <Link to="#" className={page.current ? "activeness" : ""}
+          onClick={() => paginationSearch(page.id)}> {page.id}
+        </Link>
       </li>
     } else {
       return <li key={page.id}><span className="">&hellip;</span></li>
     }
   })
 
+  const deactivateNextBtn = () => {
+    if (currentPage + 1 > pageCount) {
+      return {
+        display: 'none'
+      }
+    }
+  }
 
   return (
     <div className='pagination-search'>
       <ul>
-        {currentPage > 1 ? <li onClick={(e) => paginationSearch(currentPage - 1, e)}> <a to="#" > <button className='prev'><span className='prev-text' >Prev</span></button> </a>
+        {currentPage > 1 ? <li onClick={(e) => paginationSearch(currentPage - 1)}> <Link to="#" > <button className='prev'><span className='prev-text' >Prev</span></button> </Link>
         </li>
           : ''}
 
         {links}
 
-        {currentPage > 1 ? <li style={{ display: 'flex', color: '#fff', padding: '10px' }} onClick={(e) => paginationSearch(currentPage + 1, e)}> <a to="#" ><button className='next'> <span className='next-text' >Next</span> </button>  </a></li> : ''}
+        {currentPage > 1 ? <li style={deactivateNextBtn()} onClick={() => paginationSearch(currentPage + 1)}> <Link to="#" ><button className='next'> <span className='next-text' >Next</span> </button>  </Link></li> : ''}
       </ul>
     </div>
   )

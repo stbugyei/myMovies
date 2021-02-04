@@ -10,7 +10,6 @@ import Spinner from "../../Spinner";
 const ShowSearchedResult = (props) => {
 
   const { movies, genres, query, pageCount, paginationSearch, currentPage } = props
-  //console.log(movies)
 
   const movieCard = movies.map((movies) => {
    

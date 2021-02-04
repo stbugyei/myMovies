@@ -48,6 +48,7 @@ function FetchMovies(props) {
     let [totalMovies, setTotalMovies] = useState('');
     const [showform, setShowform] = useState(false)
 
+
     const { genresforMovies, genresforTv } = GenreData();
 
     const displayForm = () => {
@@ -66,7 +67,7 @@ function FetchMovies(props) {
             try {
                 const searchedmovie = await filmFeed.json();
                 setMovies(searchedmovie.results);
-                setTotalMovies(searchedmovie.total_pages);
+                setTotalMovies(searchedmovie.total_results);
                 setError(null);
 
             } catch (error) {
@@ -84,8 +85,8 @@ function FetchMovies(props) {
     //======================= Pagination for search ================
     const pageCount = Math.ceil(totalMovies / 20)
 
-    const paginationSearch = (pageNumbered, e) => {
-        e.preventDefault();
+    const paginationSearch = (pageNumbered) => {
+
         try {
             fetch(`${url}?api_key=${api_key}&query=${query}&page=${pageNumbered}`)
                 .then(res => res.json())
@@ -150,6 +151,7 @@ function FetchMovies(props) {
                     setPreFetchMovies(userfilmInformation);
                     setGenres(generatedGenre);
                     setError(null);
+
 
                 } catch (error) {
                     setError(<span><h4 style={{ color: 'red' }}>{error}</h4></span>);
