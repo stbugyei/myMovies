@@ -26,35 +26,6 @@ const LatestMoviesPage = (props) => {
     }
 
 
-
-    //======================= Pagination function ==================
-    // const nextPageDefault = () => {
-    //     if (movies && pageNumber < totalLatestMovies) {
-    //         setPageNumber(pageNumber += 1)
-    //         getMovies()
-    //         window.scrollTo({
-    //             top: 0,
-    //             behavior: 'smooth',
-    //         });
-    //     }
-    // }
-
-    // const PreviousPageDefault = () => {
-    //     if (movies && pageNumber !== 1) {
-    //         setPageNumber(pageNumber -= 1)
-    //         getMovies()
-    //         window.scrollTo({
-    //             top: 0,
-    //             behavior: 'smooth',
-    //         });
-    //     }
-    //     window.scrollTo({
-    //         top: 0,
-    //         behavior: 'smooth',
-    //     });
-    // }
-
-
     useEffect(() => {
 
         const getMovies = async (pageNumbered) => {

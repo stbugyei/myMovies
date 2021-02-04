@@ -21,7 +21,6 @@
 }
 
 #moveform {
-	/* transform: scale(0); */
 	display: none; 
 }
 
@@ -45,8 +44,6 @@
 	right: 20px;
 	width: 360px;
 	background: transparent;
-	/* border-top-left-radius: 25px;
-	border-top-right-radius: 25px; */
 	transition: all .3s;
 	z-index: 9;
 }
@@ -78,14 +75,9 @@
 
 .search-input:focus {
 	border: none;
-	/* box-shadow: 0 0 3px #fff;
-	background: rgba(255, 255, 255, 1.0); */
 	border-radius: 0px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
-	/* -webkit-box-shadow: 5px 0px 5px 5px #000000;
-	box-shadow: 0px 5px 15px 0px #000000; */
-	/* border-radius: 5px; */
 }
 
 .search-input:focus ~ .btn {
@@ -121,8 +113,7 @@
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
-	/* @media all and (max-width: 1037px){ */
-
+	
 	.showform {
 		top: 0px;
 		right: 6px;
@@ -164,12 +155,8 @@
 		right: 15px;
 	}
 
-	/* #moveform:checked ~ label .showform {
-		padding: 9px;
-		font-size: 1em;
-
-	} */
 }
+
 
 @media (min-width: 481px) and (max-width: 768px) {
 
