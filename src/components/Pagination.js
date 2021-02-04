@@ -51,11 +51,7 @@ const Pagination = (props) => {
     }
   })
 
-<<<<<<< HEAD
   const deactivateNextBtn = () => {
-=======
-const deactivateNextBtn = () => {
->>>>>>> 7eeb215bfee0c30185c013c474f849d95e9dec0d
     if (currentPage + 1 > pageCount) {
       return {
         display: 'none'
