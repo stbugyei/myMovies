@@ -126,7 +126,7 @@ const FavoriteMovies = (props) => {
         <div className="header">
             <div className="container">
                 <div className="favmovies-wrapper">
-                    <h2>My Favorite Conner</h2>
+                    <h2>My Favorite Corner</h2>
                     <div className="favmovies">
                         {(favMovieList) ? <>{favMovieListCard}</> : ''}
                         {(favTvList) ? <>{favTvListCard}</> : ''}

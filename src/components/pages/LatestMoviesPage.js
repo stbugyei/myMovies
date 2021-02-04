@@ -26,6 +26,35 @@ const LatestMoviesPage = (props) => {
     }
 
 
+
+    //======================= Pagination function ==================
+    // const nextPageDefault = () => {
+    //     if (movies && pageNumber < totalLatestMovies) {
+    //         setPageNumber(pageNumber += 1)
+    //         getMovies()
+    //         window.scrollTo({
+    //             top: 0,
+    //             behavior: 'smooth',
+    //         });
+    //     }
+    // }
+
+    // const PreviousPageDefault = () => {
+    //     if (movies && pageNumber !== 1) {
+    //         setPageNumber(pageNumber -= 1)
+    //         getMovies()
+    //         window.scrollTo({
+    //             top: 0,
+    //             behavior: 'smooth',
+    //         });
+    //     }
+    //     window.scrollTo({
+    //         top: 0,
+    //         behavior: 'smooth',
+    //     });
+    // }
+
+
     useEffect(() => {
 
         const getMovies = async (pageNumbered) => {
@@ -62,9 +91,9 @@ const LatestMoviesPage = (props) => {
 
         return (
 
-            <div className="film-list__container" key={details.id}>
+            <div className="film-list__container" key={index}>
                 <Link to={{
-                    pathname: `/movie/${index}`,
+                    pathname: `/movie/${details.id}`,
                     state: { movies }
                 }}>
                     {movies ? <PrefetchCard
