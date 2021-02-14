@@ -97,7 +97,7 @@ const SearchList = (props) => {
                 {searchCard}
                 <Link to="/search" onClick={closeLink}>
                     < button className='btn-preview'>
-                        Load More <i className="fas fa-angle-double-right"></i>
+                        Load More Results <i className="fas fa-angle-double-right"></i>
                     </button>
                 </Link>
             </div>

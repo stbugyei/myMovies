@@ -25,6 +25,13 @@ const ShowTVCard = (props) => {
         }
     }
 
+    //============== time formmtting function =========
+    const hourMinutes = (num) => {
+        const hours = Math.floor(num / 60);
+        const minutes = num % 60;
+        return `${hours}h  ${minutes}m`;
+    }
+
     //======= Navigation functions =========
 
     const history = useHistory();
@@ -65,7 +72,7 @@ const ShowTVCard = (props) => {
                         <div className="movieinfo-details__item">
                             {approvedAge ? <div> <span style={{ border: '1px solid', padding: '1px 2px', borderRadius: '4px' }}>{approvedAge} </span></div> : <span>Nan</span>}
 
-                            <div>{runtime ? <span>{runtime} min</span> : null}</div>
+                            <div>{runtime ? <span>{hourMinutes(runtime)}</span> : null}</div>
 
                             {movie ? <div><span> {(movie.first_air_date).slice(0, 4)}</span></div> : <span>Nan</span>}
 
@@ -154,7 +161,7 @@ const ShowTVCard = (props) => {
             </section>
 
             {similar.length !== 0 ? <SimilarCard movieInfo={similar} genres={genres} /> : ''}
-            
+
             {recommended.length !== 0 ? <RecommendedCard movieInfo={recommended} genres={genres} /> : ''}
         </>
     )

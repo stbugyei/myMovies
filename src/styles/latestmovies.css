@@ -84,7 +84,7 @@
 }
 
 .btn-addfav__show {
-	width: 125px;
+	/* width: 125px; */
 	position: relative;
 	display: inline-flex;
 	background-color: transparent;
@@ -170,7 +170,6 @@
 
 .loadmore-btn span {
 	float: left;
-	width: 150px;
 	padding: 0px 8px;
 	background: transparent;
 	border: 1px solid transparent;
@@ -599,6 +598,10 @@
 		display: none;
 	}
 
+	.preview{
+		display: none;
+	}
+
 	.fav-preview {
 		display: block;
 	}
@@ -621,11 +624,11 @@
 
 	.caption-div span h2 {
 		margin-top: 0px;
-		font-size: 16px;
+		font-size: 21px; 
 	}
 
 	.caption-div h2::before {
-		top: 30px;
+		top: 35px;
 	}
 
 	.pagination {

@@ -116,10 +116,11 @@
 	background-color: hsla(0, 0%, 100%, -7.85);
 	display: flex;
 	justify-content: center;
-	background: linear-gradient(-45deg, #613130, #4c6464, #21282b, #2b292e);
+	background: linear-gradient(-45deg, #333, #666, rgb(58, 56, 56), #2b292e);
 	background-size: 400% 400%;
 	animation: gradient 8s ease infinite;
 	transition: all .3s;
+	border-radius: 25px;
 }
 
 .stream i {
@@ -134,40 +135,32 @@
 	z-index: 99;
 	transition: all .3s;
 }
-
 .stream i:hover {
 	color: teal;
 }
-
 #closestream {
 	display: none;
 }
-
 #closestream:checked ~ label .stream {
 	display: none;
 }
-
 .iframe-video {
 	display: block;
 }
-
 .movieinfo-wrapper {
 	width: 100%;
 	background-color: #000;
 }
-
 .personinfo_wrapper {
 	width: 100%;
 	background-color: #000;
 }
-
 .movieinfo-container {
 	width: 100%;
 	margin-top: 20px;
 	padding: 15px;
 	display: flex;
 }
-
 .movieinfo-image {
 	width: 40%;
 	height: auto;
@@ -175,7 +168,6 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-
 .personinfo-image {
 	width: 40%;
 	min-height: 720px;
@@ -184,13 +176,11 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-
 .movieinfo-image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
-
 .movieinfo-details {
 	position: relative;
 	width: 60%;
@@ -201,7 +191,6 @@
 	flex-direction: column;
 	justify-content: flex-start;
 }
-
 .personinfo-details {
 	position: relative;
 	width: 60%;
@@ -212,7 +201,6 @@
 	flex-direction: column;
 	justify-content: flex-start;
 }
-
 .movieinfo-details::before {
 	content: "";
 	position: absolute;
@@ -222,7 +210,6 @@
 	right: 100%;
 	width: 600px;
 }
-
 .personinfo-details::before {
 	content: "";
 	position: absolute;
@@ -232,23 +219,21 @@
 	right: 100%;
 	width: 400px;
 }
-
 .movieinfo-details__title {
 	font-size: 30px;
 	text-transform: capitalize;
 }
-
 .movieinfo-details__item {
+	width: 100%;
 	color: #fff;
 	font-size: 13px;
 	text-transform: capitalize;
 	padding: 5px;
 	margin-bottom: 15px;
 	display: flex;
-	gap: 1rem;
+	gap: 4rem;
 	flex-wrap: wrap;
 }
-
 .personinfo-details__item {
 	width: 100%;
 	color: #fff;
@@ -260,14 +245,12 @@
 	flex-wrap: wrap;
 	gap: 4rem;
 }
-
 .sypnosis {
 	font-size: 15px;
 	text-align: justify;
 	color: #858585;
 	margin-bottom: 15px;
 }
-
 .movieinfo-details__stats > div > span:first-child {
 	display: block;
 	float: left;
@@ -275,7 +258,6 @@
 	color: #fff;
 	line-height: 1.7rem;
 }
-
 .movieinfo-details__stats > div > span:nth-child(2) {
 	display: block;
 	margin-left: 150px;
@@ -283,12 +265,10 @@
 	color: #adb5bd;
 	line-height: 1.7rem;
 }
-
 .movieinfo-details__stats Span a:hover {
 	color: blueviolet;
 	transition: all .3s;
 }
-
 .movieinfo-seasonepisode {
 	width: 100%;
 	padding: 15px;
@@ -296,7 +276,6 @@
 	color: #fff;
 	background: #000;
 }
-
 .seasons {
 	width: 100%;
 	margin-top: 10px;
@@ -304,11 +283,9 @@
 	flex-direction: column;
 	cursor: pointer;
 }
-
 .seasons-wrapper {
 	width: 20%;
 }
-
 .seasons-content,
 .seasons-content__active {
 	position: relative;
@@ -322,7 +299,6 @@
 	justify-content: space-between;
 	transition: all .5s;
 }
-
 .seasons-content__active {
 	border: 1px solid #1fff;
 	background: linear-gradient(to bottom, #1fff 5%, rgb(41, 97, 97) 100%);
@@ -330,7 +306,6 @@
 	text-shadow: 0px 1px 0px rgb(31, 99, 99);
 	transition: all .5s;
 }
-
 .seasons-content::before,
 .seasons-content__active::before {
 	content: "";
@@ -344,11 +319,9 @@
 	border-bottom-left-radius: 4px;
 	transition: all .5s;
 }
-
 .seasons-content__active::before {
 	background-color: #1fff;
 }
-
 .episodes {
 	width: 100%;
 	display: flex;
@@ -358,15 +331,12 @@
 	cursor: pointer;
 	transition: all .5s;
 }
-
 .episodes-wrapper {
 	width: 80%;
 }
-
 .episodes-wrapper h2 {
 	padding-left: 40px;
 }
-
 .episodes-content {
 	position: relative;
 	width: 30%;
@@ -381,7 +351,6 @@
 	transition: all .5s;
 	animation: zoomIn .6s;
 }
-
 .episodes-content__annex {
 	position: absolute;
 	top: 0;
@@ -403,7 +372,6 @@
 	transform: translateX(100%);
 	transition: all .3s;
 }
-
 /* .episodes-content:hover, */
 .seasons-content:hover {
 	border-color: #1fff;
@@ -412,23 +380,19 @@
 	text-shadow: 0px 1px 0px rgb(31, 99, 99);
 	transition: all .5s;
 }
-
 .episodes-content:hover .episodes-content__annex {
 	transform: translateX(0);
 	opacity: 1;
 	transition: transform .5s;
 }
-
 .seasons-content:hover.seasons-content::before {
 	background-color: cyan;
 	transition: all .5s;
 }
-
 a {
 	color: inherit;
 	text-decoration: inherit;
 }
-
 .character-profile {
 	width: 100%;
 	padding: 15px;
@@ -437,11 +401,9 @@ a {
 	color: #fff;
 	background: #000;
 }
-
 .character-profile h2 {
 	padding: 15px;
 }
-
 .character-profile-content {
 	width: 100%;
 	display: flex;
@@ -449,13 +411,11 @@ a {
 	gap: 1.5rem;
 	margin-left: .2rem;
 }
-
 .character-profile-content a {
 	text-decoration: none;
 	width: 100%;
 	height: 100%;
 }
-
 .character-profile__card {
 	position: relative;
 	width: 11%;
@@ -467,18 +427,15 @@ a {
 	z-index: 99;
 	transition: transform .8s;
 }
-
 .character-profile__card:hover .profile-avatar {
 	transform: scale(.9);
 }
-
 .profile-avatar {
 	position: relative;
 	width: 100%;
 	padding-bottom: 145%;
 	transition: all .3s;
 }
-
 .profile-avatar img {
 	position: absolute;
 	width: 100%;
@@ -486,7 +443,6 @@ a {
 	left: 0;
 	top: 0;
 }
-
 .profile-info {
 	position: absolute;
 	left: 0;
@@ -499,18 +455,15 @@ a {
 	background-color: hsla(0, 0%, 100%, 0.35);
 	text-shadow: 0 3px 6px #3b3e41;
 }
-
 .profile-info h5 {
 	color: #000000;
 	font-size: 14px;
 }
-
 .crew-caption {
 	color: #fff;
 	padding: 15px;
 	background-color: #000;
 }
-
 .crew-content {
 	width: 100%;
 	padding: 10px;
@@ -519,7 +472,6 @@ a {
 	justify-content: flex-start;
 	background-color: #000;
 }
-
 .crew-details {
 	color: #fff;
 	position: relative;
@@ -531,7 +483,6 @@ a {
 	display: flex;
 	justify-content: space-between;
 }
-
 .crew-details::before {
 	content: "";
 	position: absolute;
@@ -541,7 +492,6 @@ a {
 	height: 44px;
 	background-color: #9f9b9d;
 }
-
 .cast-caption {
 	font-size: 33px;
 	font-weight: bold;
@@ -550,7 +500,6 @@ a {
 	display: flex;
 	justify-content: space-between;
 }
-
 .cast-roles {
 	width: 100%;
 	display: flex;
@@ -558,7 +507,6 @@ a {
 	flex-direction: column;
 	margin-bottom: 15px;
 }
-
 .cast-roles__container {
 	position: relative;
 	width: 14%;
@@ -571,7 +519,6 @@ a {
 	box-shadow: 0 -2px 6px rgba(0, 0, 0, 1);
 	transition: all .3s;
 }
-
 .cast-roles__container::before {
 	content: "";
 	position: absolute;
@@ -584,27 +531,22 @@ a {
 	border-radius: 5px;
 	transition: .3s ease-out;
 }
-
 .cast-roles__container:hover.cast-roles__container::before {
 	width: 100%;
 }
-
 .cast-roles__container:hover .btn-play {
 	opacity: 1;
 	transform: scale(1);
 }
-
 .cast-roles__container:hover .cast-role__subdetails {
 	transform: scale(1);
 	opacity: 1;
 }
-
 .cast-roles__cardwrapper {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
 }
-
 .cast-roles__card {
 	position: relative;
 	width: 100%;
@@ -615,7 +557,6 @@ a {
 	flex-direction: column;
 	transition: all .3s;
 }
-
 .cast-roles__poster {
 	width: 100%;
 	padding-bottom: 145%;
@@ -626,7 +567,6 @@ a {
 	border-top-right-radius: 5px;
 	animation: zoomIn .5s;
 }
-
 .cast-roles__poster img {
 	width: 100%;
 	min-height: 100%;
@@ -634,7 +574,6 @@ a {
 	left: 0;
 	top: 0;
 }
-
 .optional-image {
 	width: 100%;
 	min-height: 100%;
@@ -642,7 +581,6 @@ a {
 	left: 0;
 	top: 0;
 }
-
 .cast-roles__info {
 	width: 100%;
 	color: #fff;
@@ -652,7 +590,6 @@ a {
 	overflow: hidden;
 	padding: 0px 10px 10px 10px;
 }
-
 .cast-roles__info h3 {
 	color: #fff;
 	text-transform: capitalize;
@@ -660,7 +597,6 @@ a {
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-
 .cast-roles__info h5 {
 	color: #adb5bd;
 	text-transform: capitalize;
@@ -668,7 +604,6 @@ a {
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-
 .btn-mediatype__person {
 	position: absolute;
 	top: 0;
@@ -679,7 +614,6 @@ a {
 	background-color: #c62d1f;
 	border: 1px solid #d02718;
 }
-
 .cast-role__subdetails {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 14px;
@@ -703,7 +637,6 @@ a {
 	box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.09);
 	transition: .3s ease-out;
 }
-
 .btn-play {
 	width: 60px;
 	height: 60px;
@@ -723,14 +656,11 @@ a {
 	opacity: 0;
 	transition: .3s ease-out;
 }
-
 .btn-play i {
 	color: #c62d1f;
 	margin: 5px 0px 0px 7px;
 }
-
-/*============= Gradient==============*/
-
+/* ============= Gradient============== */
 @-webkit-keyframes gradient {
 	0% {
 		background-position: 0% 50%;
@@ -742,7 +672,6 @@ a {
 		background-position: 0% 50%;
 	}
 }
-
 @keyframes gradient {
 	0% {
 		background-position: 0% 50%;
@@ -754,8 +683,7 @@ a {
 		background-position: 0% 50%;
 	}
 }
-
-/*============= verticalSlide ==============*/
+/* ============= verticalSlide ============== */
 @-webkit-keyframes verticalSlide {
 	0% {
 		opacity: .01;
@@ -766,7 +694,6 @@ a {
 		transform: translateX(0);
 	}
 }
-
 @keyframes verticalSlide {
 	0% {
 		opacity: .01;
@@ -777,7 +704,6 @@ a {
 		transform: translateX(0);
 	}
 }
-
 @media (min-width: 320px) and (max-width: 480px) {
 	.banner-linkref {
 		font-size: 13px;
@@ -786,15 +712,24 @@ a {
 	}
 
 	.banner-linkref span:nth-child(odd) {
+		padding: initial;
+		margin-right: 2px;
 		color: #fff;
-		border: none;
+		padding-right: 4px;
 		background: initial;
+		border: initial;
+		border-right: 1px solid #ccc;
 	}
 
 	.banner-linkref span:nth-child(even) {
+		padding: initial;
+		margin-right: 2px;
 		color: #fff;
 		border: none;
+		padding-left: 4px;
+		padding-right: 4px;
 		background: initial;
+		border-right: 1px solid #ccc;
 	}
 
 	.movieinfo-container {
@@ -804,21 +739,17 @@ a {
 		flex-direction: column;
 		padding: initial;
 	}
-
 	.movieinfo-triller {
 		height: 225px;
 	}
-
 	/* .play-video__container,
 	.youtube-frame {
 		height: 18em;
 		padding: 0;
 	} */
-
 	.movieinfo-image {
 		display: none;
 	}
-
 	.personinfo-image {
 		width: 100%;
 		min-height: 390px;
@@ -828,14 +759,18 @@ a {
 		background-position: center center;
 		filter: opacity(0.5);
 	}
-
-	.movieinfo-details__item,
 	.personinfo-details__item {
 		font-size: 12px;
 		margin-bottom: 15px;
 		gap: 0.5rem;
 	}
-
+	.movieinfo-details__item {
+		padding: initial;
+		font-size: 12px;
+		margin-bottom: 10px;
+		gap: initial;
+		justify-content: space-between;
+	}
 	.movieinfo-details,
 	.personinfo-details {
 		width: 100%;
@@ -844,6 +779,7 @@ a {
 
 	.movieinfo-details__title {
 		font-size: 16px;
+		margin: 0px 0px 15px;
 	}
 
 	.movieinfo-details::before,
@@ -856,52 +792,43 @@ a {
 		right: initial;
 		width: 0px;
 	}
-
 	.sypnosis p {
 		font-size: 12px;
 		width: 100%;
 	}
-
 	.movieinfo-details__stats > div > span:first-child {
 		font-size: 12px !important;
 		color: #fff;
 		line-height: 1.5rem;
 	}
-
 	.movieinfo-details__stats > div > span:nth-child(2) {
 		margin-left: 120px;
 		font-size: 12px;
 		color: #adb5bd;
 		line-height: 1.5rem;
 	}
-
 	.movieinfo-seasonepisode {
 		font-size: 14px;
 		width: 100%;
 		flex-direction: column;
 	}
-
 	.seasons {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: center;
 	}
-
 	.seasons-wrapper {
 		width: 100%;
 	}
-
 	.seasons-content {
 		width: 29%;
 		padding: 7px;
 		justify-content: space-evenly;
 	}
-
 	.airdate {
 		display: none;
 	}
-
 	.seasons-content::before,
 	.seasons-content__active::before {
 		height: 37px;
@@ -909,158 +836,127 @@ a {
 		left: -1px;
 		width: 8px;
 	}
-
 	.seasons-content__active::before {
 		height: 42px;
 	}
-
 	.episodes {
 		padding-left: initial;
 	}
-
 	.episodes-wrapper h2 {
 		padding-left: initial;
 	}
-
 	.episodes-wrapper {
 		width: 100%;
 	}
-
 	.episodes-wrapper h2 {
 		margin-top: 15px;
 	}
-
 	.episodes-content {
 		padding: 7px;
 		width: 100%;
 	}
-
 	.character-profile-content {
 		margin-left: .4rem;
 	}
-
 	.character-profile__card {
 		width: 45%;
 	}
-
 	.character-profile__card:hover .profile-avatar {
 		transform: initial;
 	}
-
 	.cast-roles__container {
 		width: 45%;
 		margin: 5px;
 	}
-
 	.crew-details {
 		width: 100%;
 		font-size: 14px;
 		padding: 8px;
 	}
-
 	.crew-details::before {
 		width: 6px;
 		height: 36px;
 	}
-
 	.cast-caption {
 		font-size: 19px;
 	}
-
 	.crew-caption {
 		font-size: 24px;
 	}
-
 	.cast-roles__info h3 {
 		font-size: 14px;
 	}
-
 	.cast-roles__info h5 {
 		font-size: 12px;
 	}
 }
-
 @media (min-width: 481px) and (max-width: 768px) {
 	.banner-linkref {
 		font-size: 14px;
 		margin-top: 50px;
 		padding: 7px 15px 15px 15px;
 	}
-
 	/* .play-video__container,
 	.youtube-frame {
 		height: 25em;
 	} */
-
 	.movieinfo-image,
 	.personinfo-image {
 		width: 44%;
 		height: auto;
 		max-height: 500px;
 	}
-
 	.movieinfo-details,
 	.personinfo-details {
 		width: 56%;
 	}
-
 	.movieinfo-details__title {
 		font-size: 25px;
 		gap: 1.3rem;
 	}
-
 	.movieinfo-details__item,
 	.personinfo-details__item {
 		font-size: 13px;
 		margin-bottom: 15px;
 		gap: 1rem;
 	}
-
 	.sypnosis h2 {
 		margin-top: -10px;
 		font-size: 20px;
 	}
-
 	.sypnosis p {
 		font-size: 14px;
 		width: 100%;
 	}
-
 	.movieinfo-details__stats > div > span:first-child {
 		font-size: 14px;
 		color: #fff;
 		line-height: 1.5rem;
 	}
-
 	.movieinfo-details__stats > div > span:nth-child(2) {
 		margin-left: 120px;
 		font-size: 14px;
 		color: #adb5bd;
 		line-height: 1.5rem;
 	}
-
 	.movieinfo-seasonepisode {
 		font-size: 14px;
 		width: 100%;
 		flex-direction: column;
 	}
-
 	.seasons {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
 	}
-
 	.seasons-wrapper {
 		width: 100%;
 	}
-
 	.seasons-content {
 		width: 30%;
 		padding: 7px;
 		justify-content: space-evenly;
 	}
-
 	.seasons-content::before,
 	.seasons-content__active::before {
 		height: 37px;
@@ -1068,163 +964,127 @@ a {
 		left: -1px;
 		width: 8px;
 	}
-
 	.seasons-content__active::before {
 		height: 42px;
 	}
-
 	.episodes {
 		padding-left: initial;
 	}
-
 	.episodes-wrapper {
 		width: 100%;
 	}
-
 	.episodes-wrapper h2 {
 		padding-left: initial;
 	}
-
 	.episodes-wrapper h2 {
 		margin-top: 15px;
 	}
-
 	.episodes-content,
 	.episodes-content__annex {
 		padding: 7px;
 	}
-
 	.episode-date {
 		display: none;
 	}
-
 	.character-profile__card {
 		width: 22%;
 	}
-
 	.character-profile-content {
 		margin-left: .5rem;
 	}
-
 	.character-profile__card:hover .profile-avatar {
 		transform: initial;
 	}
-
 	.cast-roles__container {
 		margin: 7px;
 		width: 23%;
 	}
-
 	.cast-roles__card {
 		width: 100%;
 	}
-
 	.crew-details {
 		width: 48%;
 		font-size: 14px;
 	}
-
 	.cast-roles__info h3 {
 		font-size: 16px;
 	}
-
 	.character-profile-content {
 		margin-left: .4rem;
 	}
 }
-
 @media (min-width: 1024px) and (max-width: 1280px) {
 	.character-profile-content {
 		gap: 1.5rem;
 		margin-left: 0.35rem;
 	}
-
 	.character-profile__card {
 		width: 12.5%;
 	}
-
 	.profile-avatar {
 		height: 211px;
 	}
-
 	.profile-info {
 		font-size: 11px;
 		border-top: 2px solid #ccc;
 	}
-
 	.movieinfo-details__item {
 		gap: 2.5rem;
 	}
-
 	.sypnosis {
 		font-size: 14px;
 	}
-
 	.movieinfo-details__stats > div > span:nth-child(2) {
 		font-size: 14px;
 	}
-
 	.movieinfo-details__stats > div > span:first-child {
 		font-size: 14px;
 	}
-
 	.seasons-content,
 	.episodes-content__annex {
 		font-size: 14px;
 		padding: 10px;
 	}
-
 	.episodes-content {
 		padding: 10px;
 		font-size: 14px;
 	}
-
 	.seasons-content::before {
 		height: 41px;
 	}
-
 	.sypnosis h2 {
 		font-size: 14px;
 	}
-
 	.btn-mediatype {
 		width: 55px;
 		padding: 1px;
 	}
-
 	.crew-details {
 		padding: 10px;
 	}
-
 	.cast-roles__info h3 {
 		font-size: 12px;
 	}
-
 	.cast-roles__info h5 {
 		font-size: 10px;
 	}
-
 	.cast-roles__container {
 		width: 14%;
 		margin: 15px;
 	}
 }
-
 @media (min-width: 1920px) {
 	.container {
 		width: 1910px;
 		margin: 0 auto;
 	}
-
 	.film-list__container {
 		margin: 15px;
 		width: 10%;
 	}
-
 	.film-list__cardwrapper {
 		margin-left: 5em;
 	}
-
 	.btn-mediatype {
 		width: 55px;
 		padding: 1px;

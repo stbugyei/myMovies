@@ -11,7 +11,7 @@ const PosterUrl = "https://image.tmdb.org/t/p/original";
 
 const ShowMoviesCard = (props) => {
 
-    const {favoriteList, addFavorite, movie, recommended, similar, keys, keySecond, runtime, showGenres,  genreDisplay, approvedAge, tagline, country, languages, director, cast } = props
+    const { favoriteList, addFavorite, movie, recommended, similar, keys, keySecond, runtime, showGenres, genreDisplay, approvedAge, tagline, country, languages, director, cast } = props
 
 
     //============== vote formmtting functions =========
@@ -25,8 +25,14 @@ const ShowMoviesCard = (props) => {
         }
     }
 
-    //======= Navigation functions =========
+    //============== time formmtting function =========
+    const hourMinutes = (num) => {
+        const hours = Math.floor(num / 60);
+        const minutes = num % 60;
+        return `${hours}h  ${minutes}m`;
+    }
 
+    //======= Navigation functions =========
     const history = useHistory();
     const handleClick = () => {
         history.goBack();
@@ -64,7 +70,7 @@ const ShowMoviesCard = (props) => {
                         <div className="movieinfo-details__item">
                             {approvedAge ? <div><span style={{ border: '1px solid', padding: '1px 2px', borderRadius: '4px' }}>{approvedAge} </span></div> : <span>Nan</span>}
 
-                            {runtime ? <div> <span>{runtime} min</span></div> : null}
+                            {runtime ? <div> <span>{hourMinutes(runtime)}</span></div> : null}
 
                             {movie.release_date ? <div><span>{(movie.release_date).slice(0, 4)}</span> </div> : <span>Nan</span>}
 
@@ -109,7 +115,7 @@ const ShowMoviesCard = (props) => {
                         </div>
 
                         <div className="movieinfo-triller">
-                            <YouTube videoId={keySecond} className="youtube-frame__annex" /> 
+                            <YouTube videoId={keySecond} className="youtube-frame__annex" />
                         </div>
                     </div>
                 </div>

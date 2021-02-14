@@ -9,9 +9,9 @@ const PosterUrl = "https://image.tmdb.org/t/p/original";
 
 const TVSeasonsCard = (props) => {
 
-    const {streamId, seasonName, season_number, season_name, detailedEpisode, runtime, genres, keys } = props
+    const { streamId, seasonName, season_number, season_name, detailedEpisode, runtime, genres, keys } = props
 
- 
+
     //============== vote formmtting functions =========
     const averageRate = (rating) => {
         if (rating >= 8) {
@@ -22,7 +22,14 @@ const TVSeasonsCard = (props) => {
             return 'red'
         }
     }
-    
+
+    //============== time formmtting function =========
+    const hourMinutes = (num) => {
+        const hours = Math.floor(num / 60);
+        const minutes = num % 60;
+        return `${hours}h  ${minutes}m`;
+    }
+
     //======= Navigation functions =========
     const history = useHistory();
     const handleClick = () => {
@@ -42,7 +49,7 @@ const TVSeasonsCard = (props) => {
         }}> <>{star.name}{detailedEpisode.guest_stars.slice(0, 6).length - 1 === i ? '' : ','}</></Link>
     })
 
- 
+
     return (
         <>
             <div className="banner-linkref">
@@ -71,7 +78,7 @@ const TVSeasonsCard = (props) => {
 
                         <div className="movieinfo-details__item">
 
-                            {runtime ? <div><span> {runtime} min</span></div> : <span>Nan</span>}
+                            {runtime ? <div><span>{hourMinutes(runtime)}</span></div> : <span>Nan</span>}
 
                             {detailedEpisode ? <div><span> {(detailedEpisode.air_date)}</span></div> : <span>Nan</span>}
 
@@ -95,14 +102,14 @@ const TVSeasonsCard = (props) => {
 
                             <div><span>Genre:</span> {genres ? <span>{genres}</span> : <span>Not Available</span>}</div>
 
-                            <div><span>Cast :</span> {crew.length !== 0 ?  <span>{crew}</span> : <span>Not Available</span>}</div>
+                            <div><span>Cast :</span> {crew.length !== 0 ? <span>{crew}</span> : <span>Not Available</span>}</div>
 
                             <div><span>Guest Stars:</span>  {guestStars.length !== 0 ? <span>{guestStars}</span> : <span>Not Available</span>}</div>
 
                         </div>
 
                         <div className="movieinfo-triller">
-                            <YouTube videoId={keys} className= "youtube-frame" /> 
+                            <YouTube videoId={keys} className="youtube-frame" />
                         </div>
                     </div>
                 </div>
