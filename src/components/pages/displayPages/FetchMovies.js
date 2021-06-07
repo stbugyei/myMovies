@@ -22,14 +22,14 @@ import ShowTvGenre from "../ShowTvGenre";
 import GenreData from '../../GenreData'
 import './../../../styles/form.css'
 
-
-const genreList = "https://api.themoviedb.org/3/genre/movie/list?&api_key=04c35731a5ee918f014970082a0088b1"
-const latestMovieUrl = "https://api.themoviedb.org/3/movie/upcoming?&api_key=04c35731a5ee918f014970082a0088b1";
-const latestTvEpisodeUrl = "https://api.themoviedb.org/3/tv/airing_today?&api_key=04c35731a5ee918f014970082a0088b1";
-const popularMovieUrl = "https://api.themoviedb.org/3/movie/popular?&api_key=04c35731a5ee918f014970082a0088b1";
-const popularTvUrl = "https://api.themoviedb.org/3/tv/popular?&api_key=04c35731a5ee918f014970082a0088b1";
-const url = "https://api.themoviedb.org/3/search/multi";
-let api_key = "04c35731a5ee918f014970082a0088b1";
+const api_key = `${process.env.REACT_APP_EMAIL_API_KEY}`,
+    genreList = `https://api.themoviedb.org/3/genre/movie/list?&api_key=${api_key}`,
+    latestMovieUrl = `https://api.themoviedb.org/3/movie/upcoming?&api_key=${api_key}`,
+    latestTvEpisodeUrl = `https://api.themoviedb.org/3/tv/airing_today?&api_key=${api_key}`,
+    popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?&api_key=${api_key}`,
+    popularTvUrl = `https://api.themoviedb.org/3/tv/popular?&api_key=${api_key}`,
+    url = `https://api.themoviedb.org/3/search/multi`;
+//let api_key = "${api_key}";
 
 
 function FetchMovies(props) {

@@ -5,8 +5,8 @@ import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
 
-
-const popularMovieUrl = "https://api.themoviedb.org/3/movie/popular?&api_key=04c35731a5ee918f014970082a0088b1";
+const api_key = `${process.env.REACT_APP_EMAIL_API_KEY}`,
+    popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?&api_key=${api_key}`;
 
 const PopularMoviesPage = (props) => {
 
@@ -85,7 +85,7 @@ const PopularMoviesPage = (props) => {
 
 
     return (
-
+        
         <div className="header">
             <div className="container">
                 {(!(movies && Object.keys(movies).length)) ? <Spinner /> :
@@ -94,7 +94,7 @@ const PopularMoviesPage = (props) => {
                             <span> <h2>Popular Movies</h2></span>
                         </div>
 
-                        <div className='film-list__cardwrapper'style={{ marginBottom: '4.6em' }} >
+                        <div className='film-list__cardwrapper' style={{ marginBottom: '4.6em' }} >
                             {movieCard}
 
                             <button className={pageNumber + 1 > totalPopularMovie ? "none" : "loadmore-btn"} style={scrollVisibility()} onClick={() => setPageNumber(pageNumber + 1)}> <span> {pageNumber} of {totalPopularMovie}</span><strong>Click to Load More</strong> </button>
@@ -107,4 +107,3 @@ const PopularMoviesPage = (props) => {
 }
 
 export default withRouter(PopularMoviesPage)
-

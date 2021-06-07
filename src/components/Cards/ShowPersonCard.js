@@ -36,13 +36,13 @@ const ShowPersonCard = (props) => {
     //============== Text trancating functions =========
     const trancateText = (text) => { return (text.substr(0, 200)).trim().concat(' ...') }
 
-        //======= Navigation functions =========
+    //======= Navigation functions =========
 
-        const history = useHistory();
-        const handleClick = () => {
-            history.goBack();
-        }
-    
+    const history = useHistory();
+    const handleClick = () => {
+        history.goBack();
+    }
+
 
     return (
         <>

@@ -7,11 +7,11 @@ import ShowMoviesCard from '../../Cards/ShowMoviesCard';
 import Spinner from '../../Spinner';
 import placeholder from './../../../images/placeholder.jpeg'
 
-const PosterUrl = "https://image.tmdb.org/t/p/original";
-let urls = "https://api.themoviedb.org/3/movie/";
-let api_key = "04c35731a5ee918f014970082a0088b1";
-let append = "&append_to_response=credits,videos";
-let release_dates = "release_dates";
+const api_key = `${process.env.REACT_APP_EMAIL_API_KEY}`,
+    PosterUrl = "https://image.tmdb.org/t/p/original";
+let urls = "https://api.themoviedb.org/3/movie/",
+    append = "&append_to_response=credits,videos",
+    release_dates = "release_dates";
 
 
 const ShowMovies = (props) => {
@@ -100,7 +100,7 @@ const ShowMovies = (props) => {
 
         getMovies();
 
-       // ============ Get geolocation ==============
+        // ============ Get geolocation ==============
         fetch(url)
             .then(response => response.json())
             .then(contents => setGeolocation(contents))

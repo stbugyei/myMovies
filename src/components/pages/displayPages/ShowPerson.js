@@ -5,11 +5,11 @@ import '../../../styles/showmovies.css'
 import Spinner from '../../Spinner';
 import ShowPersonCard from "../../Cards/ShowPersonCard";
 
-const PosterUrl = "https://image.tmdb.org/t/p/w185";
-const PosterUrlOriginal = "https://image.tmdb.org/t/p/original";
-let urls = "https://api.themoviedb.org/3/person/";
-let api_key = "04c35731a5ee918f014970082a0088b1";
-let append = "&append_to_response=videos,images,combined_credits"
+const api_key = `${process.env.REACT_APP_EMAIL_API_KEY}`,
+    PosterUrl = "https://image.tmdb.org/t/p/w185",
+    PosterUrlOriginal = "https://image.tmdb.org/t/p/original";
+let urls = "https://api.themoviedb.org/3/person/",
+    append = "&append_to_response=videos,images,combined_credits";
 
 const ShowPerson = (props) => {
 

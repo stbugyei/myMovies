@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import '../../styles/showmovies.css';
 import placeholder from '../../images/placeholder.jpeg';
-const PosterUrl = "https://image.tmdb.org/t/p/original";
+const PosterUrl = "https://image.tmdb.org/t/p/w185";
 
 const CharacterProfileCard = (props) => {
 

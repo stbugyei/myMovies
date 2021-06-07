@@ -7,11 +7,11 @@ import '../../../styles/showmovies.css'
 import Spinner from '../../Spinner';
 import ShowTVCard from '../../Cards/ShowTVCard';
 
-const PosterUrl = "https://image.tmdb.org/t/p/original";
-let urls = "https://api.themoviedb.org/3/tv/";
-let api_key = "04c35731a5ee918f014970082a0088b1";
-let append = "&append_to_response=credits,videos,season/1"
-let content_ratings = "content_ratings";
+const api_key = `${process.env.REACT_APP_EMAIL_API_KEY}`,
+    PosterUrl = "https://image.tmdb.org/t/p/original";
+let urls = "https://api.themoviedb.org/3/tv/",
+    append = "&append_to_response=credits,videos,season/1",
+    content_ratings = "content_ratings";
 
 
 const ShowMovies = (props) => {

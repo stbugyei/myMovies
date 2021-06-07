@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Placeholder from '../../images/placeholder.jpeg';
-const PosterUrl = "https://image.tmdb.org/t/p/original";
+const PosterUrl = "https://image.tmdb.org/t/p/w185";
 
 const SimilarCard = (props) => {
     const { movieInfo, genres } = props

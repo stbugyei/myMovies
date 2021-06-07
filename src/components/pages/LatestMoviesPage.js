@@ -5,7 +5,8 @@ import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
 
-const latestMovieUrl = "https://api.themoviedb.org/3/movie/upcoming?&api_key=04c35731a5ee918f014970082a0088b1";
+const api_key = `${process.env.REACT_APP_EMAIL_API_KEY}`,
+    latestMovieUrl = `https://api.themoviedb.org/3/movie/upcoming?&api_key=${api_key}`;
 
 const LatestMoviesPage = (props) => {
 
@@ -100,7 +101,7 @@ const LatestMoviesPage = (props) => {
                         <div className='film-list__cardwrapper' style={{ marginBottom: '4.6em' }}>
                             {movieCard}
 
-                            <button className={pageNumber + 1 > totalLatestMovies ? "none": "loadmore-btn"} style={scrollVisibility()} onClick={() => setPageNumber(pageNumber + 1)}> <span> {pageNumber} of {totalLatestMovies}</span><strong>Click to Load More</strong> </button>
+                            <button className={pageNumber + 1 > totalLatestMovies ? "none" : "loadmore-btn"} style={scrollVisibility()} onClick={() => setPageNumber(pageNumber + 1)}> <span> {pageNumber} of {totalLatestMovies}</span><strong>Click to Load More</strong> </button>
                         </div>
                     </div>
                 }

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 
-const movieList = "https://api.themoviedb.org/3/genre/movie/list?&api_key=04c35731a5ee918f014970082a0088b1"
-const tvList = "https://api.themoviedb.org/3/genre/tv/list?&api_key=04c35731a5ee918f014970082a0088b1"
+const api_key = `${process.env.REACT_APP_EMAIL_API_KEY}`,
+    movieList = `https://api.themoviedb.org/3/genre/movie/list?&api_key=${api_key}`,
+    tvList = `https://api.themoviedb.org/3/genre/tv/list?&api_key=${api_key}`;
 
 const GenreData = () => {
 

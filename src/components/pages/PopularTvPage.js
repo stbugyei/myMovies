@@ -5,7 +5,8 @@ import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
 
-const latestTvEpisodeUrl = "https://api.themoviedb.org/3/tv/airing_today?&api_key=04c35731a5ee918f014970082a0088b1";
+const api_key = `${process.env.REACT_APP_EMAIL_API_KEY}`,
+    latestTvEpisodeUrl = `https://api.themoviedb.org/3/tv/airing_today?&api_key=${api_key}`;
 
 
 const PopularTvPage = (props) => {

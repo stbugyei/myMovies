@@ -1,11 +1,11 @@
 import React from "react";
 import YouTube from 'react-youtube';
 import { useHistory } from "react-router-dom";
-import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import '../../styles/showmovies.css';
-import RecommendedCard from './RecommendedCard';
-import SimilarCard from "./SimilarCard";
 import CharacterProfileCard from "./CharacterProfileCard";
+import SimilarCard from "./SimilarCard";
+import RecommendedCard from './RecommendedCard';
+import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 const PosterUrl = "https://image.tmdb.org/t/p/original";
 
 

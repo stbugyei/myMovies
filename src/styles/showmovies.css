@@ -425,7 +425,6 @@ a {
 	flex-direction: column;
 	overflow: hidden;
 	z-index: 99;
-	transition: transform .8s;
 }
 .character-profile__card:hover .profile-avatar {
 	transform: scale(.9);
@@ -442,6 +441,7 @@ a {
 	min-height: 100%;
 	left: 0;
 	top: 0;
+	animation: fade 1s;
 }
 .profile-info {
 	position: absolute;

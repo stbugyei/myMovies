@@ -5,8 +5,8 @@ import './../../styles/latestmovies.css'
 import './../../styles/searchlist.css'
 import Spinner from "../Spinner";
 
-
-const genreTvUrl = "https://api.themoviedb.org/3/discover/tv?api_key=5dcf7f28a88be0edc01bbbde06f024ab&language=en-US&sort_by=popularity.desc"
+const api_key = `${process.env.REACT_APP_EMAIL_API_KEY}`,
+    genreTvUrl = `https://api.themoviedb.org/3/discover/tv?api_key=${api_key}&language=en-US&sort_by=popularity.desc`;
 
 const ShowTvGenre = (props) => {
 
@@ -106,10 +106,10 @@ const ShowTvGenre = (props) => {
                             <span> <h2>{generatedGenre[id]} TV-Series</h2></span>
                         </div>
 
-                        <div className='film-list__cardwrapper'  style={{ marginBottom: '4.6em' }}>
+                        <div className='film-list__cardwrapper' style={{ marginBottom: '4.6em' }}>
                             {movieCard}
 
-                            <button className={currentPage + 1 > totalPopularMovie ? "none": "loadmore-btn"} style={scrollVisibility()} onClick={() => setCurrentPage(currentPage + 1)}> <span> {currentPage} of {totalPopularMovie}</span><strong>Click to Load More</strong> </button>
+                            <button className={currentPage + 1 > totalPopularMovie ? "none" : "loadmore-btn"} style={scrollVisibility()} onClick={() => setCurrentPage(currentPage + 1)}> <span> {currentPage} of {totalPopularMovie}</span><strong>Click to Load More</strong> </button>
                         </div>
 
                     </div>
